@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/19 22:21:50 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/20 20:57:43 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int		exec_builtins(char *command, char **envp);
 void	exec_unset(char *commmand, char **envp);
 void	exec_env(char *commmand, char **envp);
 void	trans_env(char *argv[]);
+void	split_pipe(char *command, char *envp[]);
 
 #endif

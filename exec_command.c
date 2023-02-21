@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/19 21:35:04 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/20 21:46:54 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,37 @@ void	trans_env(char *argv[])
 	}
 }
 
+char	**split_one_pipe(char *command)
+{
+	char	**commands;
+
+	commands = malloc(sizeof(char *) * 2);
+	if (ft_strchr(command, '|') == NULL)
+	{
+		commands[0] = command;
+		commands[1] = NULL;
+		return (commands);
+	}
+	commands[0] = ft_substr(command, 0, ft_strchr(command, '|') - command - 1);
+	commands[1] = ft_strchr(command, '|') + 1;
+	return (commands);
+}
+
 void	exec_command(char *command, char *envp[])
 {
 	pid_t	pid;
 	char	**argv;
+	int		fd[2];
+	char	**commands;
 
+	commands = split_one_pipe(command);
+	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		argv = ft_split(command, ' ');
+		//close(fd[1]);
+		//dup2(fd[0], 0);
+		argv = ft_split(commands[0], ' ');
 		if (*argv == NULL)
 			exit(0);
 		trans_env(argv);
@@ -72,8 +94,22 @@ void	exec_command(char *command, char *envp[])
 	}
 	else
 	{
+		//close(fd[0]);
+		//dup2(fd[1], 1);
 		waitpid(pid, &g_exit_status, 0);
 		g_exit_status /= 256;
 	}
 	return ;
+}
+
+void	split_pipe(char *command, char *envp[])
+{
+	char	**commands;
+
+	commands = ft_split(command, '|');
+	while (*commands)
+	{
+		exec_command(*commands, envp);
+		commands++;
+	}
 }

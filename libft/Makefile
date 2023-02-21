@@ -6,7 +6,7 @@
 #    By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/11 22:45:51 by isunwoo           #+#    #+#              #
-#    Updated: 2023/02/19 22:19:21 by isunwoo          ###   ########.fr        #
+#    Updated: 2023/02/20 17:40:26 by isunwoo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ $(NAME) : $(OBJS)
 	@ar rc $(NAME) $(OBJS)
 
 $(OBJS) : $(SRCS)
-	@$(CC) $(CFLAGS) -c $(SRCS) -I ./
+	@$(CC) $(CFLAGS) -c -g $(SRCS) -I ./
 
 $(BNS_OBJS) : $(BNS_SRCS)
 	$(CC) $(CFLAGS) -c $(BNS_SRCS) -I ./

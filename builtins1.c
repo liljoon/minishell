@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/19 21:42:14 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/20 18:10:47 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_echo(char *command, char **envp)
 
 	idx = 1;
 	argv = ft_split(command, ' ');
-	if (ft_strncmp("-n", argv[1], 3) == 0)
+	if (argv[1] && ft_strncmp("-n", argv[1], 3) == 0)
 		idx = 2;
 	while (argv[idx])
 	{
@@ -36,7 +36,7 @@ void	exec_echo(char *command, char **envp)
 			printf(" ");
 		idx++;
 	}
-	if (ft_strncmp("-n", argv[1], 3) != 0)
+	if (argv[1] && ft_strncmp("-n", argv[1], 3) != 0)
 		printf("\n");
 	clear_all(argv);
 	return ;
