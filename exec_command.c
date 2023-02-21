@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/20 21:46:54 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:34:13 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	exec_command(char *command, char *envp[])
 	{
 		//close(fd[1]);
 		//dup2(fd[0], 0);
+		commands[0] = check_redirection_output(commands[0]);
 		argv = ft_split(commands[0], ' ');
 		if (*argv == NULL)
 			exit(0);

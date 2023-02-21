@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/20 20:57:43 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:25:20 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <termios.h>
 # include <errno.h>
+# include <fcntl.h>
 # include "./libft/libft.h"
 
 int	g_exit_status;
@@ -32,5 +33,6 @@ void	exec_unset(char *commmand, char **envp);
 void	exec_env(char *commmand, char **envp);
 void	trans_env(char *argv[]);
 void	split_pipe(char *command, char *envp[]);
+char	*check_redirection_output(char *command);
 
 #endif

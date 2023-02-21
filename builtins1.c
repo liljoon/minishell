@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/20 18:10:47 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/21 11:57:47 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_echo(char *command, char **envp)
 			printf(" ");
 		idx++;
 	}
-	if (argv[1] && ft_strncmp("-n", argv[1], 3) != 0)
+	if (!(argv[1] && ft_strncmp("-n", argv[1], 3) == 0))
 		printf("\n");
 	clear_all(argv);
 	return ;
