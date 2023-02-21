@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/21 12:34:13 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:37:49 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	exec_command(char *command, char *envp[])
 	int		fd[2];
 	char	**commands;
 
-	commands = split_one_pipe(command);
-	pipe(fd);
+	//commands = split_one_pipe(command);
+	//pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
