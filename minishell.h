@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/21 12:25:20 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/24 20:02:57 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void	exec_env(char *commmand, char **envp);
 void	trans_env(char *argv[]);
 void	split_pipe(char *command, char *envp[]);
 char	*check_redirection_output(char *command);
+void	redirection_heredoc(char *arg);
 
 #endif
