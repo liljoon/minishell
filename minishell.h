@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/24 20:02:57 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/24 21:27:09 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@
 # include <fcntl.h>
 # include "./libft/libft.h"
 
-int	g_exit_status;
+typedef struct s_shell_info{
+	int	exit_status;
+}	t_shell_info;
+
+t_shell_info	g_shell_info;
 
 void	set_signal(void);
 void	exec_command(char *command, char *envp[]);

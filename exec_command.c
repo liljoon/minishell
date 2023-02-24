@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/21 16:37:49 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/24 21:39:50 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	trans_env(char *argv[])
 		if ((*argv)[0] == '$')
 		{
 			if ((*argv)[1] == '?')
-				*argv = ft_itoa(g_exit_status);
+				*argv = ft_itoa(g_shell_info.exit_status);
 			else
 				*argv = getenv(&(*argv)[1]);
 		}
@@ -55,38 +55,17 @@ void	trans_env(char *argv[])
 	}
 }
 
-char	**split_one_pipe(char *command)
-{
-	char	**commands;
-
-	commands = malloc(sizeof(char *) * 2);
-	if (ft_strchr(command, '|') == NULL)
-	{
-		commands[0] = command;
-		commands[1] = NULL;
-		return (commands);
-	}
-	commands[0] = ft_substr(command, 0, ft_strchr(command, '|') - command - 1);
-	commands[1] = ft_strchr(command, '|') + 1;
-	return (commands);
-}
-
 void	exec_command(char *command, char *envp[])
 {
 	pid_t	pid;
 	char	**argv;
-	int		fd[2];
-	char	**commands;
 
-	//commands = split_one_pipe(command);
-	//pipe(fd);
+
 	pid = fork();
 	if (pid == 0)
 	{
-		//close(fd[1]);
-		//dup2(fd[0], 0);
-		commands[0] = check_redirection_output(commands[0]);
-		argv = ft_split(commands[0], ' ');
+		command = check_redirection_output(command);
+		argv = ft_split(command, ' ');
 		if (*argv == NULL)
 			exit(0);
 		trans_env(argv);
@@ -95,22 +74,8 @@ void	exec_command(char *command, char *envp[])
 	}
 	else
 	{
-		//close(fd[0]);
-		//dup2(fd[1], 1);
-		waitpid(pid, &g_exit_status, 0);
-		g_exit_status /= 256;
+		waitpid(pid, &g_shell_info.exit_status, 0);
+		g_shell_info.exit_status /= 256;
 	}
 	return ;
-}
-
-void	split_pipe(char *command, char *envp[])
-{
-	char	**commands;
-
-	commands = ft_split(command, '|');
-	while (*commands)
-	{
-		exec_command(*commands, envp);
-		commands++;
-	}
 }
