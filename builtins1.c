@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/26 18:50:38 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/26 21:16:52 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	exec_cd(char *command, char **envp)
 	char	**argv;
 
 	argv = ft_split(command, ' ');
-	if (chdir(argv[1]) == -1)
+	if (argv[1] == NULL)
+		chdir(my_getenv("HOME"));
+	else if (chdir(argv[1]) == -1)
 		printf("minishell: %s: %s: %s\n", argv[0], argv[1], strerror(errno));
 	clear_all(argv);
 	return ;
@@ -72,8 +74,8 @@ int	exec_builtins(char *command, char **envp)
 		exec_pwd(command, envp);
 	else if (ft_strncmp(command, "export", 6) == 0)
 		exec_export(command, envp);
-	else if (ft_strncmp(command, "unset", 5) == 0)
-		exec_unset(command);
+	// else if (ft_strncmp(command, "unset", 5) == 0)
+	// 	exec_unset(command);
 	else if (ft_strncmp(command, "env", 3) == 0)
 		exec_env();
 	else if (ft_strncmp(command, "exit", 4) == 0)
