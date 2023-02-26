@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/26 16:51:55 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/26 17:57:47 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*check_redirection_output(char *command);
 void	redirection_heredoc(char *arg);
 void	init_environ(char *envp[]);
 void	print_all_env(void);
+char	*my_getenv(char *_data);
 
 
 #endif
