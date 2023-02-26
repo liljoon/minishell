@@ -6,19 +6,19 @@
 #    By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/13 13:47:44 by isunwoo           #+#    #+#              #
-#    Updated: 2023/02/24 20:21:13 by isunwoo          ###   ########.fr        #
+#    Updated: 2023/02/24 21:57:48 by isunwoo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS	=	#-Wall -Wextra -Werror
 
 SRCS	=	main.c	sig_handle.c	exec_command.c	builtins1.c builtins2.c	utils.c\
-			redirections.c
+			redirections.c	environ_func.c	linked_list.c
 
 TEST_SRCS = test.c	sig_handle.c	exec_command.c	builtins1.c builtins2.c	utils.c\
-			redirections.c
+			redirections.c	environ_func.c	linked_list.c
 
-INCS	=	minishell.h
+INCS	=	minishell.h	linked_list.h
 
 NAME	=	minishell
 
