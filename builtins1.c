@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/21 11:57:47 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/26 18:50:38 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	exec_builtins(char *command, char **envp)
 	else if (ft_strncmp(command, "export", 6) == 0)
 		exec_export(command, envp);
 	else if (ft_strncmp(command, "unset", 5) == 0)
-		exec_unset(command, envp);
+		exec_unset(command);
 	else if (ft_strncmp(command, "env", 3) == 0)
-		exec_env(command, envp);
+		exec_env();
 	else if (ft_strncmp(command, "exit", 4) == 0)
 	{
 		printf("exit\n");
