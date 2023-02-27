@@ -6,15 +6,31 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/21 11:57:47 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/26 21:39:59 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_export(char *command, char **envp)
+void	exec_export(char *argv[])
 {
-	return ;
+	t_node	*idx;
+
+	if (*argv == NULL)
+	{
+		idx = g_shell_info.envl;
+		while (idx != NULL)
+		{
+			printf("declare -x %s\n", idx->data);
+			idx = idx->next;
+		}
+		return ;
+	}
+	while (*argv)
+	{
+		push_back(&g_shell_info.envl, *argv);
+		argv++;
+	}
 }
 
 void	exec_echo(char *command, char **envp)
@@ -47,7 +63,9 @@ void	exec_cd(char *command, char **envp)
 	char	**argv;
 
 	argv = ft_split(command, ' ');
-	if (chdir(argv[1]) == -1)
+	if (argv[1] == NULL)
+		chdir(my_getenv("HOME"));
+	else if (chdir(argv[1]) == -1)
 		printf("minishell: %s: %s: %s\n", argv[0], argv[1], strerror(errno));
 	clear_all(argv);
 	return ;
@@ -70,12 +88,12 @@ int	exec_builtins(char *command, char **envp)
 		exec_cd(command, envp);
 	else if (ft_strncmp(command, "pwd", 3) == 0)
 		exec_pwd(command, envp);
-	else if (ft_strncmp(command, "export", 6) == 0)
-		exec_export(command, envp);
-	else if (ft_strncmp(command, "unset", 5) == 0)
-		exec_unset(command, envp);
+	// else if (ft_strncmp(command, "export", 6) == 0)
+	// 	exec_export(command, envp);
+	// else if (ft_strncmp(command, "unset", 5) == 0)
+	// 	exec_unset(command);
 	else if (ft_strncmp(command, "env", 3) == 0)
-		exec_env(command, envp);
+		exec_env();
 	else if (ft_strncmp(command, "exit", 4) == 0)
 	{
 		printf("exit\n");
