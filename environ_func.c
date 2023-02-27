@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:51:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/26 17:54:57 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/02/27 17:12:57 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	print_all_env(void)
 	idx = g_shell_info.envl;
 	while (idx != NULL)
 	{
-		printf("%s\n", idx->data);
+		if (ft_strchr(idx->data, '='))
+			printf("%s\n", idx->data);
 		idx = idx->next;
 	}
 }
@@ -48,4 +49,9 @@ char	*my_getenv(char *_data)
 	if (idx == NULL || *(idx->data + ft_strlen(_data)) != '=')
 		return ("");
 	return (idx->data + ft_strlen(_data) + 1);
+}
+
+char	**get_envp(void)
+{
+
 }
