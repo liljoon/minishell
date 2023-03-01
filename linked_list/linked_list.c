@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:57:26 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/26 17:54:35 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:13:10 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,6 @@ void	push_back(t_node **head, char *_data)
 	while (idx->next != NULL)
 		idx = idx->next;
 	idx->next = new_node(_data);
-}
-
-void	find_and_del_node(t_node **head, char *_data)
-{
-	t_node	*temp;
-	t_node	*before;
-
-	temp = *head;
-	if (*head == NULL)
-		return ;
-	while (temp != NULL)
-	{
-		if (ft_strncmp(temp->data, _data, ft_strlen(_data)) == 0 && \
-			(*(temp->data + ft_strlen(_data)) == '=' || *(temp->data + ft_strlen(_data)) == 0))
-			break ;
-		before = temp;
-		temp = temp->next;
-	}
-	if (temp == NULL)
-		return ;
-	if (temp == *head)
-		*head = temp->next;
-	else
-		before->next = temp->next;
-	del_node(temp);
 }
 
 void	del_all_node(t_node **head)
