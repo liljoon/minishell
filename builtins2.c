@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:17:56 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 16:13:18 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:54:30 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,13 @@ void	exec_unset(char *argv[])
 
 void	exec_env(void)
 {
-	print_all_env();
+	t_node	*idx;
+
+	idx = g_shell_info.envl;
+	while (idx != NULL)
+	{
+		if (ft_strchr(idx->data, '='))
+			printf("%s\n", idx->data);
+		idx = idx->next;
+	}
 }
