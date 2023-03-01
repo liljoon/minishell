@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/26 21:39:59 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 17:38:17 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,18 @@ void	exec_echo(char *command, char **envp)
 void	exec_cd(char *command, char **envp)
 {
 	char	**argv;
+	char	*temp_dir;
 
+	temp_dir = getcwd(NULL, 0);
 	argv = ft_split(command, ' ');
 	if (argv[1] == NULL)
 		chdir(my_getenv("HOME"));
+	else if (ft_strncmp(argv[1], "-", 2) == 0)
+		chdir(my_getenv("OLDPWD"));
 	else if (chdir(argv[1]) == -1)
 		printf("minishell: %s: %s: %s\n", argv[0], argv[1], strerror(errno));
+	modify_env("OLDPWD", temp_dir);
+	free(temp_dir);
 	clear_all(argv);
 	return ;
 }
