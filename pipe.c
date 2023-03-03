@@ -6,14 +6,14 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/27 16:32:52 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:23:32 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // fork한 상태에서 실행되어야 함.
-void	set_pipe(char *commands, int n)
+void	set_pipe(char *commands[], int n)
 {
 	int		fd[2];
 	int		idx;
@@ -35,6 +35,7 @@ void	set_pipe(char *commands, int n)
 			dup2(fd[1], 1);
 			// commands parsing 하고 실행
 		}
+		idx++;
 	}
 	// 마지막 commands parsing 하고 실행
 }
