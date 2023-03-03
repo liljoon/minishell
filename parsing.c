@@ -10,185 +10,188 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+// #include "minishell.h"
+#include<stdlib.h>
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	idx;
 
-size_t	ft_strlen(const char *s)
+// 	idx = 0;
+// 	while (s[idx] != '\0')
+// 		idx++;
+// 	return (idx);
+// }
+// char	*ft_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	char	*p;
+// 	size_t	idx;
+
+// 	if (!s)
+// 		return (NULL);
+// 	idx = 0;
+// 	if (start >= ft_strlen(s))
+// 		len = 0;
+// 	else if (ft_strlen(s) - start < len)
+// 		len = ft_strlen(s) - start;
+// 	p = malloc(len + 1);
+// 	if (p == NULL)
+// 		return (NULL);
+// 	while (s[start + idx] != '\0' && idx < len)
+// 	{
+// 		p[idx] = s[start + idx];
+// 		idx++;
+// 	}
+// 	p[idx] = '\0';
+// 	return (p);
+// }
+int	count_spaces(char *str)
 {
-	size_t	idx;
+	int	i;
+	int	space;
 
-	idx = 0;
-	while (s[idx] != '\0')
-		idx++;
-	return (idx);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t	idx;
-
-	if (!dst && !src)
-		return (dst);
-	idx = 0;
-	while (idx < n)
+	i = 0;
+	space = 0;
+	while (str[i])
 	{
-		*((unsigned char *)dst + idx) = *((unsigned char *)src + idx);
-		idx++;
-	}
-	return (dst);
-}
-
-static int	count_words(char const *s, char c)
-{
-	int	flag;
-	int	idx;
-	int	res;
-
-	res = 0;
-	idx = 0;
-	flag = 0;
-	while (s[idx])
-	{
-		if (s[idx] != c && !flag)
+		if (str[i] == '"')
 		{
-			res++;
-			flag = 1;
+			i++;
+			while (str[i] && str[i] != '"')
+				i++;
+			// if (str[i] != '"')
+			// 	Error;
 		}
-		else if (s[idx] == c && flag)
-			flag = 0;
-		idx++;
+		else if (str[i] == ' ' && str[i + 1] && str[i + 1] != ' ')
+			space++;
+		i++;
 	}
-	return (res);
+	return (space);
 }
 
-static int	str_len(const char *str, char c)
-{
-	int	idx;
-
-	idx = 0;
-	while (str[idx] != c && str[idx] != '\0')
-		idx++;
-	return (idx);
-}
-
-static char	*copy(char const *s, int length)
-{
-	char	*res;
-
-	res = malloc(sizeof(char) * (length + 1));
-	if (!res)
-		return (NULL);
-	ft_memcpy(res, s, length);
-	res[length] = '\0';
-	return (res);
-}
-
-char	**clear_all(char **res)
-{
-	int	idx;
-
-	idx = 0;
-	while (res[idx])
-	{
-		free(res[idx]);
-		idx++;
-	}
-	free(res);
-	return (NULL);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	int		words_cnt;
-	char	**res;
-	int		words_idx;
-	int		str_idx;
-
-	if (!s)
-		return (NULL);
-	words_idx = 0;
-	str_idx = 0;
-	words_cnt = count_words(s, c);
-	res = malloc(sizeof(char *) * (words_cnt + 1));
-	if (!res)
-		return (res);
-	while (words_idx < words_cnt)
-	{
-		while (s[str_idx] == c)
-			str_idx++;
-		res[words_idx] = copy(s + str_idx, str_len(s + str_idx, c));
-		if (!res[words_idx])
-			return (clear_all(res));
-		str_idx += str_len(s + str_idx, c);
-		words_idx++;
-	}
-	res[words_idx] = 0;
-	return (res);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_with_double_quotes(const char *s, unsigned int start, size_t len)
 {
 	char	*p;
 	size_t	idx;
 
 	if (!s)
 		return (NULL);
+		// Error;
 	idx = 0;
 	if (start >= ft_strlen(s))
 		len = 0;
 	else if (ft_strlen(s) - start < len)
 		len = ft_strlen(s) - start;
-	p = malloc(len + 1);
+	p = malloc((len + 1) - 2);
 	if (p == NULL)
 		return (NULL);
 	while (s[start + idx] != '\0' && idx < len)
 	{
-		p[idx] = s[start + idx];
+		if (s[start + idx] != '"')
+			p[idx] = s[start + idx];
 		idx++;
 	}
 	p[idx] = '\0';
 	return (p);
 }
 
-void	parse_command(char *command)
+void	divide_op(char *str, char **argv, int argv_idx)
 {
-	char	*parsed;
-	int		i;
-	int		start;
-	char	*env;
+	int	i;
+	int	start_idx;
 
-	parsed = "";
-	i = -1;
-	start = 0;
-	while (command[++i])
+	i = 0;
+	start_idx = 0;
+	while (str[i])
 	{
-		if (command[i] == '$')
+		if (str[i] == '<')
 		{
-			printf("%s", ft_substr(command, start, i - start));
-			i++;
-			start = i;
-			while (!(command[i] == '$' || command[i] == '\0'))
+			argv[argv_idx++] = ft_substr(str, start_idx, i - start_idx);
+			start_idx = i;
+			while (str[i] && str[i + 1] == '<')
 				i++;
-			env = getenv(ft_substr(command, start, i - start));
-			if (!env)
-				return ;
-			printf("%s", env);
-			start = i;
+			// if (i - start_idx > 2)
+			// 	Error;
+			// argv[argv_idx++]
 		}
+		else if (str[i] == '>')
+		{
+			if (str[i + 1] && str[i + 1] == '>')
+				i++;
+		}
+		i++;
 	}
-	printf("%s ", ft_substr(command, start, i - start));
-	return ;
 }
-/*
-int	main(void)
-{
-	char	**splited;
-	int		i;
 
-	splited = ft_split("a $HOMEb c$HOME bbb", ' ');
-	i = -1;
-	while (splited[++i])
-		parse_command(splited[i]);
+void	divide_argv(char *command, char **argv)
+{
+	int		i;
+	int		argv_idx;
+	int		start_idx;
+	char	*substr;
+
+	i = 0;
+	argv_idx = 0;
+	start_idx = 0;
+	while (1)
+	{
+		if (command[i] == '"')
+		{
+			i++;
+			while (command[i] != '"')
+				i++;
+		}
+		else if (command[i] == ' ' || !command[i])
+		{
+			substr = ft_substr_with_double_quotes(command, start_idx, i - start_idx);
+			argv[argv_idx] = substr;
+			argv_idx++;
+			if (command[i] == ' ')
+			{
+				while (command[i] == ' ')
+					i++;
+				start_idx = i;
+			}
+			// divide_op(substr, argv, argv_idx);
+			// operator도 분리
+			else if (!command[i])
+				break ;
+		}
+		i++;
+	}
+	argv[argv_idx] = NULL;
+	free(command);
 }
-*/
+
+void	parse_argv() {}
+
+#include<stdio.h>
+// void	tokenize(t_token *tk, char *command_line, int start)
+void	tokenize(char *command_line, int start)
+{
+	int		i;
+	char	*command;
+	char	**argv;
+	char	**operator;
+
+	i = 0;
+	while (command_line[i] != '|')
+		i++;
+	command = ft_substr(command_line, start, i);
+	printf("command:%s/ space:%d\n", command, count_spaces(command));
+	argv = malloc(sizeof(char *) * (count_spaces(command) + 2));
+	// if (!argv)
+	// 	Error;
+	divide_argv(command, argv);
+	i = -1;
+	while(argv[++i])
+		printf("%s\n", argv[i]);
+	// tk->argv = argv;
+	// tk->operator = operator;
+	// tk->cmd = tk->argv[0];
+}
+
+int	main()
+{
+	char *input = "echo        hi     >a        | cat hello";
+	tokenize(input, 0);
+}
