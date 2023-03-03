@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/20 21:05:19 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 20:43:19 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*command;
+	t_token	*tks;
 
 	set_signal();
+	init_environ(envp);
 	while (1)
 	{
 		command = readline("minishell$ ");
@@ -29,8 +31,8 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		if (command && *command)
 			add_history(command);
-		if (!exec_builtins(command, envp))
-			split_pipe(command, envp);
+		if (!exec_builtins(tks))
+			exec_command(command, envp);
 		free(command);
 	}
 }

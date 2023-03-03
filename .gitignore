@@ -1,3 +1,5 @@
+.heredoc_temp
+
 # Prerequisites
 *.d
 
@@ -36,6 +38,7 @@
 *.x86_64
 *.hex
 minishell
+test
 
 # Debug files
 *.dSYM/

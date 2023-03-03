@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins2.c                                        :+:      :+:    :+:   */
+/*   linked_list.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/19 18:17:56 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 20:21:10 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/02/24 21:57:08 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/01 16:43:58 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef LINKED_LIST_H
+# define LINKED_LIST_H
+# include <stdlib.h>
+# include "../libft/libft.h"
 
-void	exec_unset(char *argv[])
+typedef struct s_node	t_node;
+struct s_node
 {
-	argv++;
-	while (*argv)
-	{
-		find_and_del_env(*argv);
-		argv++;
-	}
-}
+	char	*data;
+	t_node	*next;
+}	;
 
-void	exec_env(void)
-{
-	t_node	*idx;
+void	push_back(t_node **head, char *_data);
+void	del_all_node(t_node **head);
+void	del_node(t_node *node);
 
-	idx = g_shell_info.envl;
-	while (idx != NULL)
-	{
-		if (ft_strchr(idx->data, '='))
-			printf("%s\n", idx->data);
-		idx = idx->next;
-	}
-}
+
+#endif
