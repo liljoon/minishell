@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/27 18:14:54 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 20:09:14 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,18 @@ typedef struct s_shell_info{
 	t_node	*envl;
 }	t_shell_info;
 
+typedef struct s_token{
+	char			*cmd;
+	char			**argv;
+	int				operator;
+	struct s_token	*next;
+}	t_token;
+
 t_shell_info	g_shell_info;
 
 void	set_signal(void);
 void	exec_command(char *command, char *envp[]);
-int		exec_builtins(char *command, char **envp);
+int		exec_builtins(t_token *tk);
 void	exec_unset(char *argv[]);
 void	exec_env(void);
 void	trans_env(char *argv[]);
@@ -46,5 +53,7 @@ void	print_all_env(void);
 char	*my_getenv(char *_data);
 char	**get_envp(void);
 void	set_pipe(char *commands, int n);
+void	find_and_del_env(char *_data);
+void	modify_env(char *name, char *data);
 
 #endif

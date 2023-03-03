@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/24 20:08:00 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 21:54:21 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	redirection_input(char *file)
 	int	fd;
 
 	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("minishell: %s: %s\n", file, strerror(errno));
+		return ;
+	}
 	dup2(fd, 0);
 }
 
@@ -61,21 +66,23 @@ void	redirection_heredoc(char *arg)
 	dup2(fd, 0);
 }
 
-char	*check_redirection_output(char *command)
+char	*check_redirections(t_token *tk)
 {
-	char	**str_arr;
-	int		fd;
+	char	**argv;
 
-	str_arr = ft_split(command, '>');
-	if (str_arr[1] == NULL)
-		return (str_arr[0]);
-	str_arr[1] = ft_strtrim(str_arr[1], " ");
-	fd = open(str_arr[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	dup2(fd, 1);
-	return (str_arr[0]);
-}
-
-char	*check_redirections(char *command)
-{
-
+	argv = tk->argv;
+	while (*argv)
+	{
+		if (ft_strncmp(*argv, ">", 2) == 0)
+			redirection_output(*(argv + 1));
+		else if (ft_strncmp(*argv, "<", 2) == 0)
+			redirection_input(*(argv + 1));
+		else if (ft_strncmp(*argv, ">>", 3) == 0)
+			redirection_append(*(argv + 1));
+		else if (ft_strncmp(*argv, "<<", 3) == 0)
+			redirection_heredoc(*(argv + 1));
+		else
+			argv--;
+		argv += 2;
+	}
 }
