@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:17:56 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 16:54:30 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/01 20:21:10 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	exec_unset(char *argv[])
 {
+	argv++;
 	while (*argv)
 	{
 		find_and_del_env(*argv);
