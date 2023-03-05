@@ -14,11 +14,12 @@ CFLAGS	=	#-Wall -Wextra -Werror
 
 SRCS	=	main.c	sig_handle.c	exec_command.c	builtins1.c builtins2.c	\
 			redirections.c	environ_func.c	linked_list/linked_list.c	pipe.c \
-			control_std_fd.c
+			control_std_fd.c  parsing.c
 
 TEST_SRCS = test.c	sig_handle.c	exec_command.c	builtins1.c builtins2.c	\
 			redirections.c	environ_func.c	linked_list/linked_list.c	pipe.c \
-			control_std_fd.c
+			control_std_fd.c  parsing.c
+
 
 INCS	=	minishell.h	linked_list/linked_list.h
 
