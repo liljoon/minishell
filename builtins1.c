@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 20:38:56 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:06:54 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	exec_export(char *argv[])
 
 void	exec_echo(char *argv[])
 {
-	char	**argv;
 	int		idx;
 
 	idx = 1;
@@ -56,7 +55,6 @@ void	exec_echo(char *argv[])
 
 void	exec_cd(char *argv[])
 {
-	char	**argv;
 	char	*temp_dir;
 
 	temp_dir = getcwd(NULL, 0);
