@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+// #include<stdlib.h>
 
 // size_t	ft_strlen(const char *s)
 // {
@@ -97,8 +98,18 @@ int	count_op(char **argv)
 	op = 0;
 	while (argv[i])
 	{
-		if (argv[i][0] == '<' ||argv[i][0] == '>')
+		if (argv[i][0] == '<')
+		{
+			if (argv[i][1] && argv[i][1] == '<')
+				i++;
 			op++;
+		}
+		else if (argv[i][0] == '>')
+		{
+			if (argv[i][1] && argv[i][1] == '>')
+				i++;
+			op++;
+		}
 		i++;
 	}
 	return (op);
@@ -251,7 +262,6 @@ char	**extract_op(char **old_argv)
 void	tokenize(t_token *tk, char *command)
 {
 	int		i;
-	char	*command;
 	char	**old_argv;
 	char	**new_argv;
 	char	**operator;
