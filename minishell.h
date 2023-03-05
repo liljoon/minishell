@@ -33,7 +33,7 @@ typedef struct s_shell_info{
 typedef struct s_token{
 	char			*cmd;
 	char			**argv;
-	int				operator;
+	char			**operator;
 	struct s_token	*next;
 }	t_token;
 
@@ -55,5 +55,6 @@ char	**get_envp(void);
 void	set_pipe(char *commands, int n);
 void	find_and_del_env(char *_data);
 void	modify_env(char *name, char *data);
+//void	tokenize(t_token *tk, char *command_line, int start);
 
 #endif

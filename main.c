@@ -31,6 +31,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		if (command && *command)
 			add_history(command);
+		// tokenize(tks, command, 0);
 		if (!exec_builtins(tks))
 			exec_command(command, envp);
 		free(command);
