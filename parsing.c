@@ -189,8 +189,6 @@ char	**divide_argv(char *command)
 	char	**argv;
 
 	argv = malloc(sizeof(char *) * (count_space(command) + 1 + 1));
-	// if (!argv)
-	// 	Error;
 	i = 0;
 	start_idx = 0;
 	argv_idx = 0;
@@ -255,14 +253,14 @@ char	**extract_op(char **old_argv)
 	return (operator);
 }
 
-void	clear_char(char **chars)
+void	clear_chars(char **chars)
 {
 	int	i;
 
 	i = 0;
 	while (chars[i])
 	{
-		free(chars);
+		free(chars[i]);
 		i++;
 	}
 	free(chars);
