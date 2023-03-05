@@ -6,13 +6,13 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/03 15:10:01 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:52:51 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_path(char *argv[], char *envp[])
+void	check_path(char *argv[])
 {
 	char	*path;
 	char	**paths;
@@ -20,7 +20,7 @@ void	check_path(char *argv[], char *envp[])
 
 	if (argv[0][0] == '/')
 	{
-		execve(argv[0], argv, envp);
+		execve(argv[0], argv, get_envp());
 		printf("minishell: %s: %s\n", argv[0], strerror(errno));
 	}
 	else
@@ -33,7 +33,7 @@ void	check_path(char *argv[], char *envp[])
 			argv[0] = old_argv0;
 			argv[0] = ft_strjoin("/", argv[0]);
 			argv[0] = ft_strjoin(*paths, argv[0]);
-			execve(argv[0], argv, envp);
+			execve(argv[0], argv, get_envp());
 			paths++;
 		}
 		printf("minishell: %s: command not found\n", old_argv0);
@@ -55,21 +55,15 @@ void	trans_env(char *argv[])
 	}
 }
 
-void	exec_command(char *command, char *envp[])
+void	exec_command(t_token *tk)
 {
 	pid_t	pid;
-	char	**argv;
-
 
 	pid = fork();
 	if (pid == 0)
 	{
-		//command = check_redirection_output(command);
-		argv = ft_split(command, ' ');
-		if (*argv == NULL)
-			exit(0);
-		trans_env(argv);
-		check_path(argv, envp);
+		check_redirections(tk);
+		check_path(tk->argv);
 		exit(127);
 	}
 	else

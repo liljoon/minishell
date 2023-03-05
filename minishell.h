@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/03 17:10:22 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:48:33 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_token{
 t_shell_info	g_shell_info;
 
 void	set_signal(void);
-void	exec_command(char *command, char *envp[]);
+void	exec_command(t_token *tk);
 int		exec_builtins(t_token *tk);
 void	exec_unset(char *argv[]);
 void	exec_env(void);
