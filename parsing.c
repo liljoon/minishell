@@ -284,6 +284,4 @@ void	tokenize(t_token *tk, char *command)
 	tk->operator = operator;
 	tk->cmd = tk->argv[0];
 	clear_chars(old_argv);
-	clear_chars(new_argv);
-	clear_chars(operator);
 }
