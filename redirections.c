@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 20:06:29 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 22:07:39 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	redirection_output(char *file)
 
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	dup2(fd, 1);
+	close(fd);
 }
 
 void	redirection_input(char *file)
@@ -31,6 +32,7 @@ void	redirection_input(char *file)
 		return ;
 	}
 	dup2(fd, 0);
+	close(fd);
 }
 
 void	redirection_append(char *file)
@@ -39,6 +41,7 @@ void	redirection_append(char *file)
 
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	dup2(fd, 1);
+	close(fd);
 }
 
 void	redirection_heredoc(char *arg)
@@ -65,6 +68,7 @@ void	redirection_heredoc(char *arg)
 	close(temp_fd);
 	fd = open("./.heredoc_temp", O_RDONLY);
 	dup2(fd, 0);
+	close(fd);
 }
 
 void	check_redirections(t_token *tk)

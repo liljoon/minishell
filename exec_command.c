@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 18:52:51 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 22:02:06 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	exec_command(t_token *tk)
 	pid = fork();
 	if (pid == 0)
 	{
-		check_redirections(tk);
 		check_path(tk->argv);
 		exit(127);
 	}
