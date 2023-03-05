@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 21:54:21 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:18:04 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	redirection_heredoc(char *arg)
 	dup2(fd, 0);
 }
 
-char	*check_redirections(t_token *tk)
+void	check_redirections(t_token *tk)
 {
 	char	**argv;
 
