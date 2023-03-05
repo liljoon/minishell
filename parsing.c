@@ -218,8 +218,6 @@ char	**extract_new_argv(char *command, char **old_argv)
 	char	**new_argv;
 
 	new_argv = malloc(sizeof(char *) * (count_space(command) + 1 - count_op(old_argv) * 2 + 1));
-	// if (!new_argv)
-	// 	Error;
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
@@ -241,8 +239,6 @@ char	**extract_op(char **old_argv)
 	char	**operator;
 
 	operator = malloc(sizeof(char *) * (count_op(old_argv) * 2 + 1));
-	// if (!operator)
-	// 	Error;
 	i = 0;
 	op_idx = 0;
 	while (old_argv[i])
@@ -259,6 +255,19 @@ char	**extract_op(char **old_argv)
 	return (operator);
 }
 
+void	clear_char(char **chars)
+{
+	int	i;
+
+	i = 0;
+	while (chars[i])
+	{
+		free(chars);
+		i++;
+	}
+	free(chars);
+}
+
 void	tokenize(t_token *tk, char *command)
 {
 	int		i;
@@ -273,8 +282,10 @@ void	tokenize(t_token *tk, char *command)
 	old_argv = divide_argv(command);
 	new_argv = extract_new_argv(command, old_argv);
 	operator = extract_op(old_argv);
-	free(old_argv);
 	tk->argv = new_argv;
 	tk->operator = operator;
 	tk->cmd = tk->argv[0];
+	clear_chars(old_argv);
+	clear_chars(new_argv);
+	clear_chars(operator);
 }
