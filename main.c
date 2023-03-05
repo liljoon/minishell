@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 21:58:48 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/06 00:51:07 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int argc, char *argv[], char *envp[])
 			continue ;
 		copy_std_fd(std_fd);
 		tokenize(tks, command);
+		check_redirections(tks);
 		if (!exec_builtins(tks))
 			exec_command(tks);
 		free(command);
