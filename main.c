@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 19:57:56 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 20:28:17 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (!exec_builtins(tks))
 			exec_command(tks);
 		free(command);
+		free_token(tks);
 		restore_std_fd(std_fd);
 	}
 }

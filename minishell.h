@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 18:48:33 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 20:28:38 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,8 @@ void	tokenize(t_token *tk, char *command);
 
 void	copy_std_fd(int fd[]);
 void	restore_std_fd(int fd[]);
+
+void	free_token(t_token *tk);
+void	free_chars(char **chars);
 
 #endif
