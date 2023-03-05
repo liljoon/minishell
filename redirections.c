@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 22:07:39 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/06 00:54:09 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,21 @@ void	check_redirections(t_token *tk)
 	operator = tk->operator;
 	while (*operator)
 	{
+		if (ft_strncmp(*operator, "<<", 3) == 0)
+			redirection_heredoc(*(operator + 1));
+		else
+			operator--;
+		operator += 2;
+	}
+	operator = tk->operator;
+	while (*operator)
+	{
 		if (ft_strncmp(*operator, ">", 2) == 0)
 			redirection_output(*(operator + 1));
 		else if (ft_strncmp(*operator, "<", 2) == 0)
 			redirection_input(*(operator + 1));
 		else if (ft_strncmp(*operator, ">>", 3) == 0)
 			redirection_append(*(operator + 1));
-		else if (ft_strncmp(*operator, "<<", 3) == 0)
-			redirection_heredoc(*(operator + 1));
 		else
 			operator--;
 		operator += 2;
