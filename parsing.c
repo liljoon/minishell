@@ -248,8 +248,7 @@ char	**extract_op(char **old_argv)
 	return (operator);
 }
 
-// void	tokenize(char *command_line, int start)
-void	tokenize(t_token *tk, char *command_line, int start)
+void	tokenize(t_token *tk, char *command)
 {
 	int		i;
 	char	*command;

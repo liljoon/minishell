@@ -55,6 +55,6 @@ char	**get_envp(void);
 void	set_pipe(char *commands, int n);
 void	find_and_del_env(char *_data);
 void	modify_env(char *name, char *data);
-//void	tokenize(t_token *tk, char *command_line, int start);
+void	tokenize(t_token *tk, char *command);
 
 #endif
