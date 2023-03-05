@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/02/21 19:08:55 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/05 20:32:45 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,19 +253,6 @@ char	**extract_op(char **old_argv)
 	return (operator);
 }
 
-void	clear_chars(char **chars)
-{
-	int	i;
-
-	i = 0;
-	while (chars[i])
-	{
-		free(chars[i]);
-		i++;
-	}
-	free(chars);
-}
-
 void	tokenize(t_token *tk, char *command)
 {
 	int		i;
@@ -283,5 +270,5 @@ void	tokenize(t_token *tk, char *command)
 	tk->argv = new_argv;
 	tk->operator = operator;
 	tk->cmd = tk->argv[0];
-	clear_chars(old_argv);
+	free_chars(old_argv);
 }
