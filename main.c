@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/03 17:00:17 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:57:56 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	set_signal();
 	init_environ(envp);
+	tks = malloc(sizeof(t_token));
 	while (1)
 	{
 		command = readline("minishell$ ");
@@ -32,10 +33,12 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		if (command && *command)
 			add_history(command);
+		if (!*command)
+			continue ;
 		copy_std_fd(std_fd);
-		// tokenize(tks, command);
+		tokenize(tks, command);
 		if (!exec_builtins(tks))
-			exec_command(command, envp);
+			exec_command(tks);
 		free(command);
 		restore_std_fd(std_fd);
 	}

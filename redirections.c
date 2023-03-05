@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/03 15:18:04 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/05 20:06:29 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,31 @@ void	redirection_heredoc(char *arg)
 			break ;
 		}
 		write(temp_fd, command, ft_strlen(command));
-		write(temp_fd,	"\n", 1);
+		write(temp_fd, "\n", 1);
 		free(command);
 	}
+	close(temp_fd);
 	fd = open("./.heredoc_temp", O_RDONLY);
 	dup2(fd, 0);
 }
 
 void	check_redirections(t_token *tk)
 {
-	char	**argv;
+	char	**operator;
 
-	argv = tk->argv;
-	while (*argv)
+	operator = tk->operator;
+	while (*operator)
 	{
-		if (ft_strncmp(*argv, ">", 2) == 0)
-			redirection_output(*(argv + 1));
-		else if (ft_strncmp(*argv, "<", 2) == 0)
-			redirection_input(*(argv + 1));
-		else if (ft_strncmp(*argv, ">>", 3) == 0)
-			redirection_append(*(argv + 1));
-		else if (ft_strncmp(*argv, "<<", 3) == 0)
-			redirection_heredoc(*(argv + 1));
+		if (ft_strncmp(*operator, ">", 2) == 0)
+			redirection_output(*(operator + 1));
+		else if (ft_strncmp(*operator, "<", 2) == 0)
+			redirection_input(*(operator + 1));
+		else if (ft_strncmp(*operator, ">>", 3) == 0)
+			redirection_append(*(operator + 1));
+		else if (ft_strncmp(*operator, "<<", 3) == 0)
+			redirection_heredoc(*(operator + 1));
 		else
-			argv--;
-		argv += 2;
+			operator--;
+		operator += 2;
 	}
 }
