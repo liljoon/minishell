@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:57:26 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/06 23:51:17 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/07 00:05:08 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,5 @@ void	del_all_node(t_node **head)
 		idx = idx->next;
 		del_node(before);
 	}
-	free(*head);
 	*head = NULL;
 }
