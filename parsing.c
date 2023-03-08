@@ -10,60 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include<stdlib.h>
+#include "minishell.h"
+// #include<stdlib.h>
+// #include<stdio.h>
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	idx;
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	idx;
+// 	idx = 0;
+// 	while (s[idx] != '\0')
+// 		idx++;
+// 	return (idx);
+// }
+// char	*ft_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	char	*p;
+// 	size_t	idx;
 
-	idx = 0;
-	while (s[idx] != '\0')
-		idx++;
-	return (idx);
-}
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*p;
-	size_t	idx;
+// 	if (!s)
+// 		return (NULL);
+// 	idx = 0;
+// 	if (start >= ft_strlen(s))
+// 		len = 0;
+// 	else if (ft_strlen(s) - start < len)
+// 		len = ft_strlen(s) - start;
+// 	p = malloc(len + 1);
+// 	if (p == NULL)
+// 		return (NULL);
+// 	while (s[start + idx] != '\0' && idx < len)
+// 	{
+// 		p[idx] = s[start + idx];
+// 		idx++;
+// 	}
+// 	p[idx] = '\0';
+// 	return (p);
+// }
+// char	*ft_strdup(const char *s1)
+// {
+// 	int		s1_len;
+// 	int		idx;
+// 	char	*p;
 
-	if (!s)
-		return (NULL);
-	idx = 0;
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s) - start < len)
-		len = ft_strlen(s) - start;
-	p = malloc(len + 1);
-	if (p == NULL)
-		return (NULL);
-	while (s[start + idx] != '\0' && idx < len)
-	{
-		p[idx] = s[start + idx];
-		idx++;
-	}
-	p[idx] = '\0';
-	return (p);
-}
-char	*ft_strdup(const char *s1)
-{
-	int		s1_len;
-	int		idx;
-	char	*p;
-
-	s1_len = ft_strlen(s1);
-	p = malloc(s1_len + 1);
-	if (p == 0)
-		return (p);
-	idx = 0;
-	while (s1[idx] != '\0')
-	{
-		p[idx] = s1[idx];
-		idx++;
-	}
-	p[idx] = '\0';
-	return (p);
-}
+// 	s1_len = ft_strlen(s1);
+// 	p = malloc(s1_len + 1);
+// 	if (p == 0)
+// 		return (p);
+// 	idx = 0;
+// 	while (s1[idx] != '\0')
+// 	{
+// 		p[idx] = s1[idx];
+// 		idx++;
+// 	}
+// 	p[idx] = '\0';
+// 	return (p);
+// }
 
 int	count_space(char *str)
 {
@@ -87,39 +87,41 @@ int	count_space(char *str)
 	return (space);
 }
 
-int	count_op_in_str(char *str)
+int	count_arg_in_str(char *str)
 {
 	int	i;
-	int	op;
+	int	arg;
 
 	i = 0;
-	op = 0;
+	arg = 0;
 	while (1)
 	{
 		if (str[i] == '<' || str[i] == '>')
 		{
 			if (i > 0)
-				op++;
+				arg++;
 			if ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 				|| (str[i] == '>' && str[i + 1] && str[i + 1] == '>'))
 				i++;
-			op++;
+			arg++;
 		}
 		else if (!str[i])
 		{
-			op++;
+			if (str[i - 1] != '<' && str[i - 1] != '>')
+				arg++;
 			break ;
 		}
 		i++;
 	}
-	return (op);
+	return (arg);
 }
 
 int	count_total_args(char *str)
 {
-	int	i;
-	int	args;
-	int	start_idx;
+	int		i;
+	int		args;
+	int		start_idx;
+	char	*sub;
 
 	i = 0;
 	args = 0;
@@ -129,11 +131,17 @@ int	count_total_args(char *str)
 		if (str[i] == ' ' || !str[i])
 		{
 			if (i > 0)
-				args += count_op_in_str(ft_substr(str, start_idx, i - start_idx));
+			{
+				sub = ft_substr(str, start_idx, i - start_idx);
+				args += count_arg_in_str(sub);
+				free(sub);
+			}
 			while (str[i] == ' ')
 				i++;
 			if (!str[i])
 				break ;
+			start_idx = i;
+			continue ;
 		}
 		i++;
 	}
@@ -166,80 +174,70 @@ int	count_op(char **argv)
 	return (op);
 }
 
-// char	*ft_substr_with_double_quotes(const char *s, unsigned int start, size_t len)
-// {
-// 	char	*p;
-// 	size_t	idx;
-
-// 	if (!s)
-// 		return (NULL);
-// 		// Error;
-// 	idx = 0;
-// 	if (start >= ft_strlen(s))
-// 		len = 0;
-// 	else if (ft_strlen(s) - start < len)
-// 		len = ft_strlen(s) - start;
-// 	p = malloc((len + 1) - 2);
-// 	if (p == NULL)
-// 		return (NULL);
-// 	while (s[start + idx] != '\0' && idx < len)
-// 	{
-// 		if (s[start + idx] != '"')
-// 			p[idx] = s[start + idx];
-// 		idx++;
-// 	}
-// 	p[idx] = '\0';
-// 	return (p);
-// }
-
-char	**split_op(char *str)
+int	divide_op(char *str, char **argv, int argv_idx)
 {
 	int		i;
-	int		split_idx;
 	int		start_idx;
-	char	**splited_op;
+	int		cnt;
 
 	i = 0;
-	split_idx = 0;
 	start_idx = 0;
-	while (str[i])
+	cnt = 0;
+	while (1)
 	{
-		if (str[i] == '<')
+		if (str[i] == '<' || str[i] == '>')
 		{
 			if (i > 0)
-				splited_op[split_idx++] = ft_substr(str, start_idx, i - start_idx);
-			if (str[i + 1] && str[i + 1] == '<')
 			{
-				splited_op[split_idx++] = ft_substr(str, i, 2);
+				argv[argv_idx + cnt] = ft_substr(str, start_idx, i - start_idx);
+				cnt++;
+			}
+			if ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
+				|| (str[i] == '>' && str[i + 1] && str[i + 1] == '>'))
+			{
+				argv[argv_idx + cnt] = ft_substr(str, i, 2);
 				i++;
 			}
 			else
-				splited_op[split_idx++] = ft_substr(str, i, 1);
+				argv[argv_idx + cnt] = ft_substr(str, i, 1);
+			cnt++;
 			start_idx = i + 1;
 		}
-		else if (str[i] == '>')
+		else if (!str[i])
 		{
-			if (i > 0)
-				splited_op[split_idx++] = ft_substr(str, start_idx, i - start_idx);
-			if (str[i + 1] && str[i + 1] == '>')
+			if (str[i - 1] != '<' && str[i- 1] != '>')
 			{
-				splited_op[split_idx++] = ft_substr(str, i, 2);
-				i++;
+				argv[argv_idx + cnt] = ft_substr(str, start_idx, i - start_idx);
+				cnt++;
 			}
-			else
-				splited_op[split_idx++] = ft_substr(str, i, 1);
-			start_idx = i + 1;
+			break ;
 		}
 		i++;
 	}
-	return (splited_op);
+	return (cnt);
+}
+
+int	check_op(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '<' || str[i] == '>')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	**divide_argv(char *command)
 {
 	int		i;
+	int		j;
 	int		start_idx;
 	int		argv_idx;
+	char	*sub;
 	char	**argv;
 
 	argv = malloc(sizeof(char *) * (count_total_args(command) + 1));
@@ -250,12 +248,21 @@ char	**divide_argv(char *command)
 	{
 		if (!command[i] || command[i] == ' ')
 		{
-			split_op(ft_substr(command, start_idx, i - start_idx));
+			if (i > 0)
+			{
+				sub = ft_substr(command, start_idx, i - start_idx);
+				if (check_op(sub))
+					argv_idx += divide_op(sub, argv, argv_idx);
+				else
+					argv[argv_idx++] = ft_strdup(sub);
+				free(sub);
+			}
 			while (command[i] == ' ')
 				i++;
 			if (!command[i])
 				break ;
 			start_idx = i;
+			continue ;
 		}
 		i++;
 	}
@@ -269,7 +276,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 	int		new_idx;
 	char	**new_argv;
 
-	new_argv = malloc(sizeof(char *) * (count_space(command) + 1 - count_op(old_argv) * 2 + 1));
+	new_argv = malloc(sizeof(char *) * (count_total_args(command) + 1 - count_op(old_argv) * 2 + 1));
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
@@ -306,31 +313,29 @@ char	**extract_op(char **old_argv)
 	operator[op_idx] = NULL;
 	return (operator);
 }
-#include<stdio.h>
-// void	tokenize(t_token *tk, char *command)
-void	tokenize(char *command)
+
+// void	tokenize(char *command)
+void	tokenize(t_token *tk, char *command)
 {
 	int		i;
 	char	**old_argv;
 	char	**new_argv;
 	char	**operator;
 
-	printf("args:%d\n", count_total_args(command));
-	// old_argv = divide_argv(command);
-	// new_argv = extract_new_argv(command, old_argv);
-	// operator = extract_op(old_argv);
-	// tk->argv = new_argv;
-	// tk->operator = operator;
-	// tk->cmd = tk->argv[0];
-	// free_chars(old_argv);
-	// i = -1;
-	// while (old_argv[++i])
-	// 	printf("argv:%s\n", old_argv[i]);
+	// printf("args:%d\n", count_total_args(command));
+	old_argv = divide_argv(command);
+	new_argv = extract_new_argv(command, old_argv);
+	operator = extract_op(old_argv);
+	tk->argv = new_argv;
+	tk->operator = operator;
+	tk->cmd = tk->argv[0];
+	tk->next = NULL;
+	free_chars(old_argv);
 }
 
-int	main()
-{
-	char	*input = "echo hi>a";
-	printf("input:%s\n", input);
-	tokenize(input);
-}
+// int	main()
+// {
+// 	char	*input = "echo hi>a >b >> c";
+// 	printf("input:%s\n", input);
+// 	tokenize(input);
+// }
