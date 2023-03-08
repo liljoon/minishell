@@ -6,14 +6,14 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/03 16:23:32 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/08 20:38:38 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // fork한 상태에서 실행되어야 함.
-void	set_pipe(char *commands[], int n)
+void	set_pipe(t_token *tks, int n)
 {
 	int		fd[2];
 	int		idx;
@@ -26,16 +26,27 @@ void	set_pipe(char *commands[], int n)
 		pid = fork();
 		if (pid == 0)
 		{
-			close(fd[1]);
-			dup2(fd[0], 0);
+			close(fd[0]);
+			dup2(fd[1], 1);
+			check_redirections(tks);
+			if (!exec_builtins(tks))
+				check_path(tks->argv);
+			exit(127);
 		}
 		else
 		{
-			close(fd[0]);
-			dup2(fd[1], 1);
-			// commands parsing 하고 실행
+			close(fd[1]);
+			dup2(fd[0], 0);
+			waitpid(pid, &g_shell_info.exit_status, 0);
+			g_shell_info.exit_status /= 256;
 		}
+		tks = tks->next;
 		idx++;
 	}
+	check_redirections(tks);
+	if (!exec_builtins(tks))
+		check_path(tks->argv);
+	exit(127);
+
 	// 마지막 commands parsing 하고 실행
 }
