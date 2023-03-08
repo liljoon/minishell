@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 18:51:32 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/06 00:50:59 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	exec_pwd(void)
 
 int	exec_builtins(t_token *tk)
 {
-	check_redirections(tk);
 	if (ft_strncmp(tk->cmd, "echo", 5) == 0)
 		exec_echo(tk->argv);
 	else if (ft_strncmp(tk->cmd, "cd", 3) == 0)

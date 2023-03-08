@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 18:52:51 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/08 20:34:04 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	check_path(char *argv[])
 		}
 		printf("minishell: %s: command not found\n", old_argv0);
 	}
+	exit(127);
 }
 
 void	trans_env(char *argv[])
@@ -61,15 +62,58 @@ void	exec_command(t_token *tk)
 
 	pid = fork();
 	if (pid == 0)
-	{
-		check_redirections(tk);
 		check_path(tk->argv);
-		exit(127);
-	}
 	else
 	{
 		waitpid(pid, &g_shell_info.exit_status, 0);
 		g_shell_info.exit_status /= 256;
 	}
 	return ;
+}
+
+int		count_linked_list(t_token *tks)
+{
+	int idx;
+
+	idx = 0;
+	while (tks)
+	{
+		idx++;
+		tks = tks->next;
+	}
+	return (idx);
+}
+
+void	exec_control(t_token *tks)
+{
+	t_token	*idx;
+	int		len;
+	pid_t	pid;
+
+	len = count_linked_list(tks);
+	// idx = tks;
+	// while (idx)
+	// {
+	// 	check_redirections(idx);
+	// 	if (!exec_builtins(idx))
+	// 		exec_command(idx);
+	// 	idx = idx->next;
+	// }
+	if (len <= 1)
+	{
+		check_redirections(tks);
+		if (!exec_builtins(tks))
+			exec_command(tks);
+	}
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+			set_pipe(tks, len);
+		else
+		{
+			waitpid(pid, &g_shell_info.exit_status, 0);
+			g_shell_info.exit_status /= 256;
+		}
+	}
 }

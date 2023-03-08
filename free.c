@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 20:25:41 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/05 20:27:38 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/07 00:04:01 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,20 @@ void	free_token(t_token *tk)
 {
 	free_chars(tk->argv);
 	free_chars(tk->operator);
+	free(tk);
+}
+
+void	free_all_tks(t_token **head)
+{
+	t_token	*idx;
+	t_token	*before;
+
+	idx = *head;
+	while (idx != NULL)
+	{
+		before = idx;
+		idx = idx->next;
+		free_token(before);
+	}
+	*head = NULL;
 }
