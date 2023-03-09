@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 21:51:19 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 22:15:41 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	set_signal(void);
 void	fork_and_exec(t_token *tk);
 void	exec_control(t_token *tks);
 int		exec_builtins(t_token *tk);
-void	exec_unset(char *argv[]);
-void	exec_env(void);
+
 void	trans_env(char *argv[]);
 int		check_redirections(t_token *tk);
 void	init_environ(char *envp[]);
