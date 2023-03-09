@@ -296,6 +296,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 {
 	int		i;
 	int		new_idx;
+	char	quote;
 	char	**new_argv;
 
 	new_argv = malloc(sizeof(char *) * (count_total_args(command) + 1 - count_op(old_argv) * 2 + 1));
@@ -305,6 +306,8 @@ char	**extract_new_argv(char *command, char **old_argv)
 	{
 		if (old_argv[i][0] == '<' || old_argv[i][0] == '>')
 			i++;
+		else if (old_argv[i][0] == '\'' || old_argv[i][0] == '\"')
+			new_argv[new_idx++] = ft_substr(old_argv[i], 1, ft_strlen(old_argv[i]) - 2);
 		else
 			new_argv[new_idx++] = ft_strdup(old_argv[i]);
 		i++;
@@ -346,7 +349,7 @@ void	tokenize(char *command)
 
 	printf("args:%d\n", count_total_args(command));
 	old_argv = divide_argv(command);
-	// new_argv = extract_new_argv(command, old_argv);
+	new_argv = extract_new_argv(command, old_argv);
 	// operator = extract_op(old_argv);
 	// tk->argv = new_argv;
 	// tk->operator = operator;
@@ -356,9 +359,9 @@ void	tokenize(char *command)
 	i = -1;
 	while (old_argv[++i])
 		printf("old:%s\n", old_argv[i]);
-	// i = -1;
-	// while (new_argv[++i])
-	// 	printf("new:%s\n", new_argv[i]);
+	i = -1;
+	while (new_argv[++i])
+		printf("new:%s\n", new_argv[i]);
 	// i = -1;
 	// while (old_argv[++i])
 	// 	printf("argv:%s\n", old_argv[i]);
