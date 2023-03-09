@@ -100,7 +100,7 @@ int	count_arg_in_str(char *str)
 		{
 			if (i > 0)
 				arg++;
-			if ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
+			while ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 				|| (str[i] == '>' && str[i + 1] && str[i + 1] == '>'))
 				i++;
 			arg++;
@@ -121,6 +121,7 @@ int	count_total_args(char *str)
 	int		i;
 	int		args;
 	int		start_idx;
+	char	quote;
 	char	*sub;
 
 	i = 0;
@@ -128,7 +129,22 @@ int	count_total_args(char *str)
 	start_idx = 0;
 	while (1)
 	{
-		if (str[i] == ' ' || !str[i])
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			quote = str[i++];
+			while (str[i] && str[i] != quote)
+				i++;
+			// if (!str[i])
+			// 	Error;
+			i++;
+			args++;
+			while (str[i] == ' ')
+				i++;
+			if (!str[i])
+				break ;
+			start_idx = i;
+		}
+		else if (str[i] == ' ' || !str[i])
 		{
 			if (i > 0)
 			{
@@ -141,9 +157,9 @@ int	count_total_args(char *str)
 			if (!str[i])
 				break ;
 			start_idx = i;
-			continue ;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (args);
 }
@@ -151,24 +167,15 @@ int	count_total_args(char *str)
 int	count_op(char **argv)
 {
 	int	i;
+	int	j;
 	int	op;
 
 	i = 0;
 	op = 0;
 	while (argv[i])
 	{
-		if (argv[i][0] == '<')
-		{
-			if (argv[i][1] && argv[i][1] == '<')
-				i++;
+		if (argv[i][0] == '<' || argv[i][1] == '>')
 			op++;
-		}
-		else if (argv[i][0] == '>')
-		{
-			if (argv[i][1] && argv[i][1] == '>')
-				i++;
-			op++;
-		}
 		i++;
 	}
 	return (op);
@@ -177,6 +184,7 @@ int	count_op(char **argv)
 int	divide_op(char *str, char **argv, int argv_idx)
 {
 	int		i;
+	int		j;
 	int		start_idx;
 	int		cnt;
 
@@ -192,16 +200,14 @@ int	divide_op(char *str, char **argv, int argv_idx)
 				argv[argv_idx + cnt] = ft_substr(str, start_idx, i - start_idx);
 				cnt++;
 			}
-			if ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
-				|| (str[i] == '>' && str[i + 1] && str[i + 1] == '>'))
-			{
-				argv[argv_idx + cnt] = ft_substr(str, i, 2);
-				i++;
-			}
-			else
-				argv[argv_idx + cnt] = ft_substr(str, i, 1);
+			j = 1;
+			while ((str[i] == '<' && str[i + j] && str[i + j] == '<')
+				|| (str[i] == '>' && str[i + j] && str[i + j] == '>'))
+				j++;
+			argv[argv_idx + cnt] = ft_substr(str, i, j);
 			cnt++;
-			start_idx = i + 1;
+			i += j;
+			start_idx = i;
 		}
 		else if (!str[i])
 		{
@@ -212,7 +218,8 @@ int	divide_op(char *str, char **argv, int argv_idx)
 			}
 			break ;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (cnt);
 }
@@ -234,9 +241,9 @@ int	check_op(char *str)
 char	**divide_argv(char *command)
 {
 	int		i;
-	int		j;
 	int		start_idx;
 	int		argv_idx;
+	char	quote;
 	char	*sub;
 	char	**argv;
 
@@ -246,7 +253,22 @@ char	**divide_argv(char *command)
 	argv_idx = 0;
 	while (1)
 	{
-		if (!command[i] || command[i] == ' ')
+		if (command[i] == '\'' || command[i] == '\"')
+		{
+			quote = command[i++];
+			while (command[i] && command[i] != quote)
+				i++;
+			// if (!command[i])
+			// 	Error;
+			i++;
+			argv[argv_idx++] = ft_substr(command, start_idx, i - start_idx);
+			while (command[i] == ' ')
+				i++;
+			if (!command[i])
+				break ;
+			start_idx = i;
+		}
+		else if (!command[i] || command[i] == ' ')
 		{
 			if (i > 0)
 			{
@@ -262,9 +284,9 @@ char	**divide_argv(char *command)
 			if (!command[i])
 				break ;
 			start_idx = i;
-			continue ;
 		}
-		i++;
+		else
+			i++;
 	}
 	argv[argv_idx] = NULL;
 	return (argv);
@@ -274,6 +296,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 {
 	int		i;
 	int		new_idx;
+	char	quote;
 	char	**new_argv;
 
 	new_argv = malloc(sizeof(char *) * (count_total_args(command) + 1 - count_op(old_argv) * 2 + 1));
@@ -283,6 +306,8 @@ char	**extract_new_argv(char *command, char **old_argv)
 	{
 		if (old_argv[i][0] == '<' || old_argv[i][0] == '>')
 			i++;
+		else if (old_argv[i][0] == '\'' || old_argv[i][0] == '\"')
+			new_argv[new_idx++] = ft_substr(old_argv[i], 1, ft_strlen(old_argv[i]) - 2);
 		else
 			new_argv[new_idx++] = ft_strdup(old_argv[i]);
 		i++;
@@ -293,8 +318,8 @@ char	**extract_new_argv(char *command, char **old_argv)
 
 char	**extract_op(char **old_argv)
 {
-	int	i;
-	int	op_idx;
+	int		i;
+	int		op_idx;
 	char	**operator;
 
 	operator = malloc(sizeof(char *) * (count_op(old_argv) * 2 + 1));
@@ -315,14 +340,16 @@ char	**extract_op(char **old_argv)
 }
 
 // void	tokenize(char *command)
-void	tokenize(t_token *tk, char *command)
+t_token	*tokenize(char *command)
 {
 	int		i;
 	char	**old_argv;
 	char	**new_argv;
 	char	**operator;
+	t_token	*tk;
 
-	// printf("args:%d\n", count_total_args(command));
+	tk = malloc(sizeof(t_token));
+	printf("args:%d\n", count_total_args(command));
 	old_argv = divide_argv(command);
 	new_argv = extract_new_argv(command, old_argv);
 	operator = extract_op(old_argv);
@@ -331,11 +358,21 @@ void	tokenize(t_token *tk, char *command)
 	tk->cmd = tk->argv[0];
 	tk->next = NULL;
 	free_chars(old_argv);
+	return (tk);
+	// i = -1;
+	// while (old_argv[++i])
+	// 	printf("old:%s\n", old_argv[i]);
+	// i = -1;
+	// while (new_argv[++i])
+	// 	printf("new:%s\n", new_argv[i]);
+	// i = -1;
+	// while (old_argv[++i])
+	// 	printf("argv:%s\n", old_argv[i]);
 }
 
 // int	main()
 // {
-// 	char	*input = "echo hi>a >b >> c";
+// 	char	*input = "echo hi>a   \">b\" >>>> c ";
 // 	printf("input:%s\n", input);
 // 	tokenize(input);
 // }
