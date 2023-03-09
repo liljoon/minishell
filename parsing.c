@@ -10,60 +10,60 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include<stdlib.h>
-#include<stdio.h>
-size_t	ft_strlen(const char *s)
-{
-	size_t	idx;
+#include "minishell.h"
+// #include<stdlib.h>
+// #include<stdio.h>
+// size_t	ft_strlen(const char *s)
+// {
+// 	size_t	idx;
 
-	idx = 0;
-	while (s[idx] != '\0')
-		idx++;
-	return (idx);
-}
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*p;
-	size_t	idx;
+// 	idx = 0;
+// 	while (s[idx] != '\0')
+// 		idx++;
+// 	return (idx);
+// }
+// char	*ft_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	char	*p;
+// 	size_t	idx;
 
-	if (!s)
-		return (NULL);
-	idx = 0;
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s) - start < len)
-		len = ft_strlen(s) - start;
-	p = malloc(len + 1);
-	if (p == NULL)
-		return (NULL);
-	while (s[start + idx] != '\0' && idx < len)
-	{
-		p[idx] = s[start + idx];
-		idx++;
-	}
-	p[idx] = '\0';
-	return (p);
-}
-char	*ft_strdup(const char *s1)
-{
-	int		s1_len;
-	int		idx;
-	char	*p;
+// 	if (!s)
+// 		return (NULL);
+// 	idx = 0;
+// 	if (start >= ft_strlen(s))
+// 		len = 0;
+// 	else if (ft_strlen(s) - start < len)
+// 		len = ft_strlen(s) - start;
+// 	p = malloc(len + 1);
+// 	if (p == NULL)
+// 		return (NULL);
+// 	while (s[start + idx] != '\0' && idx < len)
+// 	{
+// 		p[idx] = s[start + idx];
+// 		idx++;
+// 	}
+// 	p[idx] = '\0';
+// 	return (p);
+// }
+// char	*ft_strdup(const char *s1)
+// {
+// 	int		s1_len;
+// 	int		idx;
+// 	char	*p;
 
-	s1_len = ft_strlen(s1);
-	p = malloc(s1_len + 1);
-	if (p == 0)
-		return (p);
-	idx = 0;
-	while (s1[idx] != '\0')
-	{
-		p[idx] = s1[idx];
-		idx++;
-	}
-	p[idx] = '\0';
-	return (p);
-}
+// 	s1_len = ft_strlen(s1);
+// 	p = malloc(s1_len + 1);
+// 	if (p == 0)
+// 		return (p);
+// 	idx = 0;
+// 	while (s1[idx] != '\0')
+// 	{
+// 		p[idx] = s1[idx];
+// 		idx++;
+// 	}
+// 	p[idx] = '\0';
+// 	return (p);
+// }
 
 int	count_space(char *str)
 {
@@ -339,37 +339,40 @@ char	**extract_op(char **old_argv)
 	return (operator);
 }
 
-// void	tokenize(t_token *tk, char *command)
-void	tokenize(char *command)
+// void	tokenize(char *command)
+t_token	*tokenize(char *command)
 {
 	int		i;
 	char	**old_argv;
 	char	**new_argv;
 	char	**operator;
+	t_token	*tk;
 
+	tk = malloc(sizeof(t_token));
 	printf("args:%d\n", count_total_args(command));
 	old_argv = divide_argv(command);
 	new_argv = extract_new_argv(command, old_argv);
-	// operator = extract_op(old_argv);
-	// tk->argv = new_argv;
-	// tk->operator = operator;
-	// tk->cmd = tk->argv[0];
-	// tk->next = NULL;
-	// free_chars(old_argv);
-	i = -1;
-	while (old_argv[++i])
-		printf("old:%s\n", old_argv[i]);
-	i = -1;
-	while (new_argv[++i])
-		printf("new:%s\n", new_argv[i]);
+	operator = extract_op(old_argv);
+	tk->argv = new_argv;
+	tk->operator = operator;
+	tk->cmd = tk->argv[0];
+	tk->next = NULL;
+	free_chars(old_argv);
+	return (tk);
+	// i = -1;
+	// while (old_argv[++i])
+	// 	printf("old:%s\n", old_argv[i]);
+	// i = -1;
+	// while (new_argv[++i])
+	// 	printf("new:%s\n", new_argv[i]);
 	// i = -1;
 	// while (old_argv[++i])
 	// 	printf("argv:%s\n", old_argv[i]);
 }
 
-int	main()
-{
-	char	*input = "echo hi>a   \">b\" >>>> c ";
-	printf("input:%s\n", input);
-	tokenize(input);
-}
+// int	main()
+// {
+// 	char	*input = "echo hi>a   \">b\" >>>> c ";
+// 	printf("input:%s\n", input);
+// 	tokenize(input);
+// }
