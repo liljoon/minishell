@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 21:12:05 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 22:02:30 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	redirection_output(char *file)
 	close(fd);
 }
 
-void	redirection_input(char *file)
+int	redirection_input(char *file)
 {
 	int	fd;
 
@@ -29,10 +29,11 @@ void	redirection_input(char *file)
 	if (fd == -1)
 	{
 		printf_err(file, NULL, strerror(errno));
-		return ;
+		return (1);
 	}
 	dup2(fd, 0);
 	close(fd);
+	return (0);
 }
 
 void	redirection_append(char *file)
@@ -71,7 +72,7 @@ void	redirection_heredoc(char *arg)
 	close(fd);
 }
 
-void	check_redirections(t_token *tk)
+void	check_heredoc_first(t_token *tk)
 {
 	char	**operator;
 
@@ -84,17 +85,28 @@ void	check_redirections(t_token *tk)
 			operator--;
 		operator += 2;
 	}
+}
+
+int	check_redirections(t_token *tk)
+{
+	char	**operator;
+
+	check_heredoc_first(tk);
 	operator = tk->operator;
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, ">", 2) == 0)
 			redirection_output(*(operator + 1));
 		else if (ft_strncmp(*operator, "<", 2) == 0)
-			redirection_input(*(operator + 1));
+		{
+			if (redirection_input(*(operator + 1)))
+				return (1);
+		}
 		else if (ft_strncmp(*operator, ">>", 3) == 0)
 			redirection_append(*(operator + 1));
 		else
 			operator--;
 		operator += 2;
 	}
+	return (0);
 }
