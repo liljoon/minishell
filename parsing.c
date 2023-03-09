@@ -136,14 +136,13 @@ int	count_total_args(char *str)
 				i++;
 			// if (!str[i])
 			// 	Error;
-			args++;
 			i++;
+			args++;
 			while (str[i] == ' ')
 				i++;
 			if (!str[i])
 				break ;
 			start_idx = i;
-			continue ;
 		}
 		else if (str[i] == ' ' || !str[i])
 		{
@@ -158,9 +157,9 @@ int	count_total_args(char *str)
 			if (!str[i])
 				break ;
 			start_idx = i;
-			continue ;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (args);
 }
@@ -209,7 +208,6 @@ int	divide_op(char *str, char **argv, int argv_idx)
 			cnt++;
 			i += j;
 			start_idx = i;
-			continue ;
 		}
 		else if (!str[i])
 		{
@@ -220,7 +218,8 @@ int	divide_op(char *str, char **argv, int argv_idx)
 			}
 			break ;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (cnt);
 }
@@ -244,6 +243,7 @@ char	**divide_argv(char *command)
 	int		i;
 	int		start_idx;
 	int		argv_idx;
+	char	quote;
 	char	*sub;
 	char	**argv;
 
@@ -253,7 +253,22 @@ char	**divide_argv(char *command)
 	argv_idx = 0;
 	while (1)
 	{
-		if (!command[i] || command[i] == ' ')
+		if (command[i] == '\'' || command[i] == '\"')
+		{
+			quote = command[i++];
+			while (command[i] && command[i] != quote)
+				i++;
+			// if (!command[i])
+			// 	Error;
+			i++;
+			argv[argv_idx++] = ft_substr(command, start_idx, i - start_idx);
+			while (command[i] == ' ')
+				i++;
+			if (!command[i])
+				break ;
+			start_idx = i;
+		}
+		else if (!command[i] || command[i] == ' ')
 		{
 			if (i > 0)
 			{
@@ -269,9 +284,9 @@ char	**divide_argv(char *command)
 			if (!command[i])
 				break ;
 			start_idx = i;
-			continue ;
 		}
-		i++;
+		else
+			i++;
 	}
 	argv[argv_idx] = NULL;
 	return (argv);
@@ -330,7 +345,7 @@ void	tokenize(char *command)
 	char	**operator;
 
 	printf("args:%d\n", count_total_args(command));
-	// old_argv = divide_argv(command);
+	old_argv = divide_argv(command);
 	// new_argv = extract_new_argv(command, old_argv);
 	// operator = extract_op(old_argv);
 	// tk->argv = new_argv;
@@ -338,9 +353,9 @@ void	tokenize(char *command)
 	// tk->cmd = tk->argv[0];
 	// tk->next = NULL;
 	// free_chars(old_argv);
-	// i = -1;
-	// while (old_argv[++i])
-	// 	printf("old:%s\n", old_argv[i]);
+	i = -1;
+	while (old_argv[++i])
+		printf("old:%s\n", old_argv[i]);
 	// i = -1;
 	// while (new_argv[++i])
 	// 	printf("new:%s\n", new_argv[i]);
