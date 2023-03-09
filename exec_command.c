@@ -6,13 +6,13 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 21:16:26 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:46:09 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_path(char *argv[])
+void	check_path_and_exec(char *argv[])
 {
 	char	*path;
 	char	**paths;
@@ -56,13 +56,13 @@ void	trans_env(char *argv[])
 	}
 }
 
-void	exec_command(t_token *tk)
+void	fork_and_exec(t_token *tk)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
-		check_path(tk->argv);
+		check_path_and_exec(tk->argv);
 	else
 	{
 		waitpid(pid, &g_shell_info.exit_status, 0);
@@ -91,17 +91,19 @@ void	exec_control(t_token *tks)
 	pid_t	pid;
 
 	len = count_linked_list(tks);
-	if (len <= 1)
+	if (len == 0)
+		return ;
+	if (len == 1)
 	{
 		check_redirections(tks);
 		if (!exec_builtins(tks))
-			exec_command(tks);
+			fork_and_exec(tks);
 	}
 	else
 	{
 		pid = fork();
 		if (pid == 0)
-			set_pipe(tks, len);
+			set_pipe_and_exec(tks, len);
 		else
 		{
 			waitpid(pid, &g_shell_info.exit_status, 0);

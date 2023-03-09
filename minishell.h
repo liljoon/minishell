@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 21:07:16 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:46:09 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_token
 t_shell_info	g_shell_info;
 
 void	set_signal(void);
-void	exec_command(t_token *tk);
+void	fork_and_exec(t_token *tk);
 void	exec_control(t_token *tks);
 int		exec_builtins(t_token *tk);
 void	exec_unset(char *argv[]);
@@ -52,8 +52,8 @@ void	check_redirections(t_token *tk);
 void	init_environ(char *envp[]);
 char	*my_getenv(char *_data);
 char	**get_envp(void);
-void	set_pipe(t_token *tks, int n);
-void	check_path(char *argv[]);
+void	set_pipe_and_exec(t_token *tks, int n);
+void	check_path_and_exec(char *argv[]);
 void	find_and_del_env(char *_data);
 void	modify_env(char *name, char *data);
 t_token	*tokenize(char *command);

@@ -6,13 +6,13 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 20:20:36 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:46:09 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_pipe(t_token *tks, int n)
+void	set_pipe_and_exec(t_token *tks, int n)
 {
 	int		fd[2];
 	int		idx;
@@ -29,7 +29,7 @@ void	set_pipe(t_token *tks, int n)
 			dup2(fd[1], 1);
 			check_redirections(tks);
 			if (!exec_builtins(tks))
-				check_path(tks->argv);
+				check_path_and_exec(tks->argv);
 			exit(127);
 		}
 		else
@@ -44,6 +44,6 @@ void	set_pipe(t_token *tks, int n)
 	}
 	check_redirections(tks);
 	if (!exec_builtins(tks))
-		check_path(tks->argv);
+		check_path_and_exec(tks->argv);
 	exit(127);
 }
