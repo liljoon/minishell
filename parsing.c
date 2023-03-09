@@ -121,6 +121,7 @@ int	count_total_args(char *str)
 	int		i;
 	int		args;
 	int		start_idx;
+	char	quote;
 	char	*sub;
 
 	i = 0;
@@ -128,7 +129,23 @@ int	count_total_args(char *str)
 	start_idx = 0;
 	while (1)
 	{
-		if (str[i] == ' ' || !str[i])
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			quote = str[i++];
+			while (str[i] && str[i] != quote)
+				i++;
+			// if (!str[i])
+			// 	Error;
+			args++;
+			i++;
+			while (str[i] == ' ')
+				i++;
+			if (!str[i])
+				break ;
+			start_idx = i;
+			continue ;
+		}
+		else if (str[i] == ' ' || !str[i])
 		{
 			if (i > 0)
 			{
@@ -313,28 +330,28 @@ void	tokenize(char *command)
 	char	**operator;
 
 	printf("args:%d\n", count_total_args(command));
-	old_argv = divide_argv(command);
-	new_argv = extract_new_argv(command, old_argv);
-	operator = extract_op(old_argv);
+	// old_argv = divide_argv(command);
+	// new_argv = extract_new_argv(command, old_argv);
+	// operator = extract_op(old_argv);
 	// tk->argv = new_argv;
 	// tk->operator = operator;
 	// tk->cmd = tk->argv[0];
 	// tk->next = NULL;
 	// free_chars(old_argv);
-	i = -1;
-	while (old_argv[++i])
-		printf("old:%s\n", old_argv[i]);
-	i = -1;
-	while (new_argv[++i])
-		printf("new:%s\n", new_argv[i]);
-	i = -1;
-	while (old_argv[++i])
-		printf("argv:%s\n", old_argv[i]);
+	// i = -1;
+	// while (old_argv[++i])
+	// 	printf("old:%s\n", old_argv[i]);
+	// i = -1;
+	// while (new_argv[++i])
+	// 	printf("new:%s\n", new_argv[i]);
+	// i = -1;
+	// while (old_argv[++i])
+	// 	printf("argv:%s\n", old_argv[i]);
 }
 
 int	main()
 {
-	char	*input = "echo hi>a   >b >>>> c ";
+	char	*input = "echo hi>a   \">b\" >>>> c ";
 	printf("input:%s\n", input);
 	tokenize(input);
 }
