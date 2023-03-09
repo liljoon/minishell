@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list.h                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 21:57:08 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 20:20:12 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/03/09 20:21:57 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/09 21:07:05 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINKED_LIST_H
-# define LINKED_LIST_H
-# include <stdlib.h>
-# include "../libft/libft.h"
+#include "minishell.h"
 
-typedef struct s_node	t_node;
-struct s_node
+void	printf_err(char *arg0, char *arg1, char *err)
 {
-	char	*data;
-	t_node	*next;
-}	;
-
-void	push_back(t_node **head, char *_data);
-void	del_all_node(t_node **head);
-void	del_node(t_node *node);
-
-#endif
+	write(2, "minishell: ", 12);
+	write(2, arg0, ft_strlen(arg0));
+	write(2, ": ", 2);
+	if (arg1)
+	{
+		write(2, arg1, ft_strlen(arg1));
+		write(2, ": ", 2);
+	}
+	write(2, err, ft_strlen(err));
+	write(2, "\n", 1);
+}

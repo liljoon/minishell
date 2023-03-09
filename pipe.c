@@ -6,13 +6,12 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/08 20:38:38 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:20:36 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// fork한 상태에서 실행되어야 함.
 void	set_pipe(t_token *tks, int n)
 {
 	int		fd[2];
@@ -47,6 +46,4 @@ void	set_pipe(t_token *tks, int n)
 	if (!exec_builtins(tks))
 		check_path(tks->argv);
 	exit(127);
-
-	// 마지막 commands parsing 하고 실행
 }

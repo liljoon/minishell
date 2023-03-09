@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/06 00:54:09 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:12:05 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	redirection_input(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("minishell: %s: %s\n", file, strerror(errno));
+		printf_err(file, NULL, strerror(errno));
 		return ;
 	}
 	dup2(fd, 0);

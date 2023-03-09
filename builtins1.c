@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/06 00:50:59 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:15:41 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	exec_cd(char *argv[])
 	else if (argv[1][0] == '~')
 	{
 		if (chdir(ft_strjoin(my_getenv("HOME"), &(argv[1][1]))) == -1)
-			printf("minishell: %s: %s: %s\n", argv[0], argv[1], strerror(errno));
+			printf_err(argv[0], argv[1], strerror(errno));
 	}
 	else if (chdir(argv[1]) == -1)
-		printf("minishell: %s: %s: %s\n", argv[0], argv[1], strerror(errno));
+		printf_err(argv[0], argv[1], strerror(errno));
 	modify_env("OLDPWD", temp_dir);
 	free(temp_dir);
 	return ;
