@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 22:02:30 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/10 13:25:37 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	redirection_append(char *file)
 void	redirection_heredoc(char *arg)
 {
 	int		temp_fd;
-	int		fd;
 	char	*command;
 
 	temp_fd = open("./.heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -67,23 +66,33 @@ void	redirection_heredoc(char *arg)
 		free(command);
 	}
 	close(temp_fd);
-	fd = open("./.heredoc_temp", O_RDONLY);
-	dup2(fd, 0);
-	close(fd);
+
 }
 
 void	check_heredoc_first(t_token *tk)
 {
 	char	**operator;
+	int		flag;
+	int		fd;
 
+	flag = 0;
 	operator = tk->operator;
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, "<<", 3) == 0)
+		{
 			redirection_heredoc(*(operator + 1));
+			flag = 1;
+		}
 		else
 			operator--;
 		operator += 2;
+	}
+	if (flag)
+	{
+		fd = open("./.heredoc_temp", O_RDONLY);
+		dup2(fd, 0);
+		close(fd);
 	}
 }
 
