@@ -44,6 +44,7 @@ t_shell_info	g_shell_info;
 void	set_signal(void);
 void	fork_and_exec(t_token *tk);
 void	exec_control(t_token *tks);
+t_token	*tokenize(char *command);
 int		exec_builtins(t_token *tk);
 
 void	trans_env(char *argv[]);
