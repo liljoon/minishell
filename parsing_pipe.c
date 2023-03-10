@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 22:16:01 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/06 23:59:27 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:21:38 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	trim_splited_command(char **spl_cmd)
 
 t_token	*split_pipe_and_tokenize(char *command)
 {
-	t_token *head;
+	t_token	*head;
 	t_token	*new_tk;
 	char	**splited_command;
 	char	**temp;
@@ -53,8 +53,6 @@ t_token	*split_pipe_and_tokenize(char *command)
 	temp = splited_command;
 	while (*splited_command)
 	{
-		// new_tk = malloc(sizeof(t_token));
-		// new_tk->next = NULL;
 		new_tk = tokenize(*splited_command);
 		push_back_tk(&head, new_tk);
 		splited_command++;

@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list.h                                      :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 21:57:08 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 20:20:12 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/03/09 22:20:53 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/09 22:20:59 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINKED_LIST_H
-# define LINKED_LIST_H
-# include <stdlib.h>
-# include "../libft/libft.h"
+#include "builtins.h"
 
-typedef struct s_node	t_node;
-struct s_node
+void	exec_echo(char *argv[])
 {
-	char	*data;
-	t_node	*next;
-}	;
+	int		idx;
 
-void	push_back(t_node **head, char *_data);
-void	del_all_node(t_node **head);
-void	del_node(t_node *node);
-
-#endif
+	idx = 1;
+	if (argv[1] && ft_strncmp("-n", argv[1], 3) == 0)
+		idx = 2;
+	while (argv[idx])
+	{
+		printf("%s", argv[idx]);
+		if (argv[idx + 1] != NULL)
+			printf(" ");
+		idx++;
+	}
+	if (!(argv[1] && ft_strncmp("-n", argv[1], 3) == 0))
+		printf("\n");
+	return ;
+}
