@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 17:07:31 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/10 18:05:33 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ char	**extract_new_argv(char *command, char **old_argv)
 	{
 		if (old_argv[i][0] == '<' || old_argv[i][0] == '>')
 			i++;
-		else if (old_argv[i][0] == '\'' || old_argv[i][0] == '\"')
-			new_argv[new_idx++] = ft_substr(old_argv[i], 1, ft_strlen(old_argv[i]) - 2);
 		else
 			new_argv[new_idx++] = ft_strdup(old_argv[i]);
 		i++;
@@ -52,7 +50,9 @@ char	**extract_op(char **old_argv)
 			operator[op_idx] = ft_strdup(old_argv[i]);
 			op_idx++;
 			i++;
-			operator[op_idx++] = ft_strdup(old_argv[i]);
+			if (!old_argv[i])
+				break ;
+			operator[op_idx] = ft_strdup(old_argv[i]);
 			op_idx++;
 		}
 		i++;

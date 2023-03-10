@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:59:35 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 17:06:53 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/10 18:01:53 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	divide_op(char *str, char **argv, int argv_idx)
 				cnt++;
 			}
             start_idx = i;
-			if ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
+			while ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 				|| (str[i] == '>' && str[i + 1] && str[i + 1] == '>'))
 				i++;
             argv[argv_idx + cnt] = ft_substr(str, start_idx, i - start_idx + 1);

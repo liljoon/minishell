@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 17:07:27 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/10 18:38:15 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_token	*tokenize(char *command)
 	char	**operator;
 	t_token	*tk;
 
+	if (check_exceptions(command))
+		return (NULL);
 	tk = malloc(sizeof(t_token));
 	// printf("args:%d\n", count_total_args(command));
 	old_argv = divide_argv(command);
