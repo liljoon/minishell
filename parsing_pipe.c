@@ -53,9 +53,9 @@ t_token	*split_pipe_and_tokenize(char *command)
 	temp = splited_command;
 	while (*splited_command)
 	{
-		new_tk = malloc(sizeof(t_token));
-		new_tk->next = NULL;
-		tokenize(new_tk, *splited_command);
+		// new_tk = malloc(sizeof(t_token));
+		// new_tk->next = NULL;
+		new_tk = tokenize(*splited_command);
 		push_back_tk(&head, new_tk);
 		splited_command++;
 	}

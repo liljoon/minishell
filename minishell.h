@@ -56,7 +56,7 @@ void	set_pipe(t_token *tks, int n);
 void	check_path(char *argv[]);
 void find_and_del_env(char *_data);
 void modify_env(char *name, char *data);
-void tokenize(t_token *tk, char *command);
+t_token	*tokenize(char *command);
 
 void copy_std_fd(int fd[]);
 void restore_std_fd(int fd[]);
