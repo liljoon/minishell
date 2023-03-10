@@ -3,31 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+         #
+#    By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/13 13:47:44 by isunwoo           #+#    #+#              #
-#    Updated: 2023/03/09 22:19:24 by isunwoo          ###   ########.fr        #
+#    Updated: 2023/03/10 17:45:30 by yham             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS	=	#-Wall -Wextra -Werror
 
 BUILTINS_SRC	=	builtins/*.c
+PARSING_SRC		=	parsing/*.c
 
-SRCS	=	main.c	$(BUILTINS_SRC)	sig_handle.c	exec_command.c \
+SRCS	=	main.c	$(BUILTINS_SRC) $(PARSING_SRC)	sig_handle.c	exec_command.c \
 			redirections.c	environ_func.c	linked_list/linked_list.c	pipe.c \
-			control_std_fd.c  parsing.c	free.c	parsing_pipe.c	error.c
+			control_std_fd.c  free.c	parsing_pipe.c	error.c
 
-TEST_SRCS = test.c	$(BUILTINS_SRC) sig_handle.c	exec_command.c	\
+TEST_SRCS = test.c	$(BUILTINS_SRC) $(PARSING_SRC)	sig_handle.c	exec_command.c	\
 			redirections.c	environ_func.c	linked_list/linked_list.c	pipe.c \
-			control_std_fd.c  parsing.c	free.c	parsing_pipe.c	error.c
+			control_std_fd.c  free.c	parsing_pipe.c	error.c
 
 
 INCS	=	minishell.h	linked_list/linked_list.h builtins/builtins.h
 
 NAME	=	minishell
 
-ON_CLUSTER = 1
+ON_CLUSTER = 0
 
 ifeq ($(ON_CLUSTER) , 0)
 	READLINE_I = -I/opt/homebrew/opt/readline/include
