@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/10 18:10:17 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:20:15 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	set_signal();
 	init_environ(envp);
-	modify_env("PWD", NULL);
+	modify_env("OLDPWD", NULL);
 	while (1)
 	{
 		command = readline("minishell$ ");
