@@ -6,21 +6,25 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/08 20:38:38 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/09 22:00:55 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// fork한 상태에서 실행되어야 함.
-void	set_pipe(t_token *tks, int n)
+void	exec_token(t_token *tk)
+{
+	if (!check_redirections(tk) && !exec_builtins(tk))
+		check_path_and_exec(tk->argv);
+	exit(127);
+}
+
+void	set_pipe_and_exec(t_token *tks, int n)
 {
 	int		fd[2];
-	int		idx;
 	pid_t	pid;
 
-	idx = 0;
-	while (idx < n - 1)
+	while (tks->next)
 	{
 		pipe(fd);
 		pid = fork();
@@ -28,10 +32,7 @@ void	set_pipe(t_token *tks, int n)
 		{
 			close(fd[0]);
 			dup2(fd[1], 1);
-			check_redirections(tks);
-			if (!exec_builtins(tks))
-				check_path(tks->argv);
-			exit(127);
+			exec_token(tks);
 		}
 		else
 		{
@@ -41,12 +42,6 @@ void	set_pipe(t_token *tks, int n)
 			g_shell_info.exit_status /= 256;
 		}
 		tks = tks->next;
-		idx++;
 	}
-	check_redirections(tks);
-	if (!exec_builtins(tks))
-		check_path(tks->argv);
-	exit(127);
-
-	// 마지막 commands parsing 하고 실행
+	exec_token(tks);
 }

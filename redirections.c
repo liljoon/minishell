@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/06 00:54:09 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/10 13:25:37 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,19 @@ void	redirection_output(char *file)
 	close(fd);
 }
 
-void	redirection_input(char *file)
+int	redirection_input(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("minishell: %s: %s\n", file, strerror(errno));
-		return ;
+		printf_err(file, NULL, strerror(errno));
+		return (1);
 	}
 	dup2(fd, 0);
 	close(fd);
+	return (0);
 }
 
 void	redirection_append(char *file)
@@ -47,7 +48,6 @@ void	redirection_append(char *file)
 void	redirection_heredoc(char *arg)
 {
 	int		temp_fd;
-	int		fd;
 	char	*command;
 
 	temp_fd = open("./.heredoc_temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -66,35 +66,56 @@ void	redirection_heredoc(char *arg)
 		free(command);
 	}
 	close(temp_fd);
-	fd = open("./.heredoc_temp", O_RDONLY);
-	dup2(fd, 0);
-	close(fd);
+
 }
 
-void	check_redirections(t_token *tk)
+void	check_heredoc_first(t_token *tk)
 {
 	char	**operator;
+	int		flag;
+	int		fd;
 
+	flag = 0;
 	operator = tk->operator;
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, "<<", 3) == 0)
+		{
 			redirection_heredoc(*(operator + 1));
+			flag = 1;
+		}
 		else
 			operator--;
 		operator += 2;
 	}
+	if (flag)
+	{
+		fd = open("./.heredoc_temp", O_RDONLY);
+		dup2(fd, 0);
+		close(fd);
+	}
+}
+
+int	check_redirections(t_token *tk)
+{
+	char	**operator;
+
+	check_heredoc_first(tk);
 	operator = tk->operator;
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, ">", 2) == 0)
 			redirection_output(*(operator + 1));
 		else if (ft_strncmp(*operator, "<", 2) == 0)
-			redirection_input(*(operator + 1));
+		{
+			if (redirection_input(*(operator + 1)))
+				return (1);
+		}
 		else if (ft_strncmp(*operator, ">>", 3) == 0)
 			redirection_append(*(operator + 1));
 		else
 			operator--;
 		operator += 2;
 	}
+	return (0);
 }

@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list.h                                      :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 21:57:08 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 20:20:12 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/03/09 22:13:03 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/09 22:16:17 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINKED_LIST_H
-# define LINKED_LIST_H
-# include <stdlib.h>
-# include "../libft/libft.h"
+#include "../minishell.h"
 
-typedef struct s_node	t_node;
-struct s_node
-{
-	char	*data;
-	t_node	*next;
-}	;
-
-void	push_back(t_node **head, char *_data);
-void	del_all_node(t_node **head);
-void	del_node(t_node *node);
-
-#endif
+void	exec_unset(char *argv[]);
+void	exec_env(void);
+void	exec_pwd(void);
+void	exec_cd(char *argv[]);
+void	exec_echo(char *argv[]);
+void	exec_export(char *argv[]);

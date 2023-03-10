@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins2.c                                        :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/19 18:17:56 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 20:21:10 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/03/09 22:22:22 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/09 22:22:28 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtins.h"
 
-void	exec_unset(char *argv[])
-{
-	argv++;
-	while (*argv)
-	{
-		find_and_del_env(*argv);
-		argv++;
-	}
-}
-
-void	exec_env(void)
+void	exec_export(char *argv[])
 {
 	t_node	*idx;
 
-	idx = g_shell_info.envl;
-	while (idx != NULL)
+	argv++;
+	if (*argv == NULL)
 	{
-		if (ft_strchr(idx->data, '='))
-			printf("%s\n", idx->data);
-		idx = idx->next;
+		idx = g_shell_info.envl;
+		while (idx != NULL)
+		{
+			printf("declare -x %s\n", idx->data);
+			idx = idx->next;
+		}
+		return ;
+	}
+	while (*argv)
+	{
+		push_back(&g_shell_info.envl, *argv);
+		argv++;
 	}
 }
