@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 18:38:15 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/10 20:59:46 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ t_token	*tokenize(char *command)
 	// i = -1;
 	// while (operator[++i])
 	// 	printf("op:%s\n", operator[i]);
-	free_chars(old_argv);
+	// free_chars(old_argv);
 	return (tk);
 }
