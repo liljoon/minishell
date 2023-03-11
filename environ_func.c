@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:51:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/01 16:54:34 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:04:46 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,16 @@ void	modify_env(char *name, char *data)
 	if (idx == NULL)
 		return ;
 	old = idx->data;
-	new_str = malloc(ft_strlen(name) + ft_strlen(data) + 2);
+	if (data)
+		new_str = malloc(ft_strlen(name) + ft_strlen(data) + 2);
+	else
+		new_str = malloc(ft_strlen(name) + 2);
 	ft_strlcpy(new_str, name, ft_strlen(name) + 1);
-	ft_strlcat(new_str, "=", ft_strlen(name) + 2);
-	ft_strlcat(new_str, data, ft_strlen(name) + ft_strlen(data) + 2);
+	if (data)
+	{
+		ft_strlcat(new_str, "=", ft_strlen(name) + 2);
+		ft_strlcat(new_str, data, ft_strlen(name) + ft_strlen(data) + 2);
+	}
 	idx->data = new_str;
 	free(old);
 }
