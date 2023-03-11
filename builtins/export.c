@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:22:22 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/10 20:43:41 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/11 18:27:27 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,28 @@ int	count_string_arr_len(char **strings)
 	return (idx);
 }
 
+void	print_with_double_quotes(char *s)
+{
+	int	flag;
+
+	printf("declare -x ");
+	flag = 0;
+	while (*s)
+	{
+		printf("%c",*s);
+		if (*s == '=' && !flag)
+		{
+			flag = 1;
+			printf("\"");
+		}
+		s++;
+	}
+	if (flag)
+		printf("\"\n");
+	else
+		printf("\n");
+}
+
 void	print_envp_sorted(void)
 {
 	char	**envp;
@@ -48,14 +70,14 @@ void	print_envp_sorted(void)
 		while (i < size - step - 1)
 		{
 			if (ft_strncmp(envp[i], envp[i + 1], ft_strlen(envp[i])) > 0)
-				swap(&(envp[i]), &(envp[i+1]));
+				swap(&(envp[i]), &(envp[i + 1]));
 			i++;
 		}
 		step++;
 	}
 	i = 0;
 	while (envp[i])
-		printf("declare -x %s\n", envp[i++]);
+		print_with_double_quotes(envp[i++]);
 	free_chars(envp);
 }
 
