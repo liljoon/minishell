@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 17:45:02 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/10 18:40:46 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,8 @@ char	**divide_argv(char *command);
 
 char	**extract_new_argv(char *command, char **old_argv);
 char	**extract_op(char **old_argv);
+
+t_token	*tokenize(char *command);
+int     check_exceptions(char *command);
 
 # endif

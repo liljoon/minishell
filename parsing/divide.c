@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:59:35 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 17:06:53 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/10 20:46:35 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,34 @@ int	divide_op(char *str, char **argv, int argv_idx)
 	int		i;
 	int		start_idx;
 	int		cnt;
+	char	quote;
 
 	i = 0;
 	start_idx = 0;
 	cnt = 0;
 	while (str[i])
 	{
-		if (str[i] == '<' || str[i] == '>')
+		if (str[i] == '\'' || str[i] == '\"')
 		{
+			if (!quote)
+				quote = str[i];
+			else
+				quote = 0;
+		}
+		else if (str[i] == '<' || str[i] == '>')
+		{
+			if (quote)
+			{
+				i++;
+				continue ;
+			}
 			if (i > 0)
 			{
 				argv[argv_idx + cnt] = ft_substr(str, start_idx, i - start_idx);
 				cnt++;
 			}
             start_idx = i;
-			if ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
+			while ((str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 				|| (str[i] == '>' && str[i + 1] && str[i + 1] == '>'))
 				i++;
             argv[argv_idx + cnt] = ft_substr(str, start_idx, i - start_idx + 1);
@@ -68,6 +81,7 @@ char	**divide_argv(char *command)
 	int		i;
 	int		start_idx;
 	int		argv_idx;
+	char	quote;
 	char	*sub;
 	char	**argv;
 
@@ -75,10 +89,23 @@ char	**divide_argv(char *command)
 	i = 0;
 	start_idx = 0;
 	argv_idx = 0;
+	quote = 0;
 	while (command[i])
 	{
-		if (command[i] == ' ')
+		if (command[i] == '\'' || command[i] == '\"')
 		{
+			if (!quote)
+				quote = command[i];
+			else
+				quote = 0;
+		}
+		else if (command[i] == ' ')
+		{
+			if (quote)
+			{
+				i++;
+				continue ;
+			}
 			if (i > 0)
 			{
 				sub = ft_substr(command, start_idx, i - start_idx);
