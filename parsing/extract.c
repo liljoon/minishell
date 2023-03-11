@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/10 20:56:47 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/11 17:24:04 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**extract_op(char **old_argv)
 			i++;
 			if (!old_argv[i])
 				break ;
-			operator[op_idx] = ft_strdup(old_argv[i]);
+			operator[op_idx] = ft_strdup_without_quotes(old_argv[i]);
 			op_idx++;
 		}
 		i++;
