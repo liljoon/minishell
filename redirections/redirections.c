@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/10 13:25:37 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/11 20:51:52 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	redirection_output(char *file)
 {
