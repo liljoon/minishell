@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:20:53 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/10 17:57:54 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/11 20:30:53 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	check_option(char *option)
 			option++;
 		}
 	}
+	else
+		return (0);
 	return (1);
 }
 
