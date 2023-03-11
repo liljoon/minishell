@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/11 20:46:54 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/11 20:53:02 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ char	*include_env(char *s)
 			if (i > 0)
 				ret = my_strjoin(ret, ft_substr(s, start_idx, i - start_idx));
 			start_idx = ++i;
+			if (!s[i])
+			{
+				ret = my_strjoin(ret, ft_substr(s, start_idx - 1, 1));
+				break ;
+			}
 			while ((s[i] >= 'a' && s[i] <= 'z')
 					|| (s[i] >= 'A' && s[i] <= 'Z'))
 				i++;
