@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:00:02 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/02/13 16:21:26 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:08:49 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	sigint_handler(int signo)
 {
 	if (signo != SIGINT)
 		return ;
+	g_shell_info.exit_status = 1;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
