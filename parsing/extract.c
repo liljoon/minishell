@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/13 15:33:08 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/13 16:40:30 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ char	*my_strdup(char *s)
 {
 	int		i;
 	int		j;
-	int		slen;
 	int		env_flag;
-	char	*p;
+	char	quote;
+	char	*dup;
 
 	env_flag = 0;
 	if (check_env(s))
@@ -126,27 +126,32 @@ char	*my_strdup(char *s)
 		s = include_env(s);
 		env_flag = 1;
 	}
-	slen = ft_strlen(s);
-	p = malloc(slen + 1);
-	if (p == 0)
-		return (p);
+	dup = malloc(ft_strlen(s) + 1);
+	if (dup == 0)
+		return (dup);
 	i = 0;
 	j = 0;
+	quote = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'' || s[i] == '\"')
+		if ((s[i] == '\'' || s[i] == '\"') && (!quote || s[i] == quote))
 		{
-			i++;
-			continue ;
+			if (!quote)
+				quote = s[i];
+			else if (s[i] == quote)
+				quote = 0;
 		}
-		p[j] = s[i];
+		else
+		{
+			dup[j] = s[i];
+			j++;
+		}
 		i++;
-		j++;
 	}
-	p[j] = '\0';
+	dup[j] = '\0';
 	if (env_flag)
 		free(s);
-	return (p);
+	return (dup);
 }
 
 char	**extract_new_argv(char *command, char **old_argv)
