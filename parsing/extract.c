@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/11 20:53:02 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/13 12:47:39 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,31 @@
 
 char	*my_strjoin(char *s1, char *s2)
 {
+	size_t	i;
 	size_t	idx_p;
 	char	*p;
 
-	if (!s1)
-		return (s2);
-	else if (!s2)
-		return (s1);
 	p = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (p == NULL)
 		return (NULL);
+	i = 0;
 	idx_p = 0;
-	while (*s1)
+	while (s1[i])
 	{
-		p[idx_p] = *s1;
-		s1++;
+		p[idx_p] = s1[i];
+		i++;
 		idx_p++;
 	}
-	while (*s2)
+	i = 0;
+	while (s2[i])
 	{
-		p[idx_p] = *s2;
-		s2++;
+		p[idx_p] = s2[i];
+		i++;
 		idx_p++;
 	}
 	p[idx_p] = '\0';
-	// free(s1);
-	// free(s2);
+	free(s1);
+	free(s2);
 	return (p);
 }
 
@@ -49,12 +48,13 @@ char	*include_env(char *s)
 	int		start_idx;
 	int		flag;
 	char	quote;
+	char	*sub;
 	char	*ret;
 
 	i = 0;
 	quote = 0;
 	start_idx = 0;
-	ret = NULL;
+	ret = ft_strdup("");
 	while (s[i])
 	{
 		if (s[i] == '\'' || s[i] == '\"')
@@ -81,8 +81,11 @@ char	*include_env(char *s)
 				}
 				continue ;
 			}
-			ret = my_strjoin(ret, my_getenv(ft_substr(s, start_idx, i - start_idx)));
+			sub = ft_substr(s, start_idx, i - start_idx);
+			ret = my_strjoin(ret, ft_strdup(my_getenv(sub)));
+			free(sub);
 			start_idx = i;
+			continue ;
 		}
 		i++;
 	}
@@ -91,14 +94,34 @@ char	*include_env(char *s)
 	return (ret);
 }
 
+int	check_env(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 char	*my_strdup(char *s)
 {
 	int		i;
 	int		j;
 	int		slen;
+	int		env_flag;
 	char	*p;
 
-	s = include_env(s);
+	env_flag = 0;
+	if (check_env(s))
+	{
+		s = include_env(s);
+		env_flag = 1;
+	}
 	slen = ft_strlen(s);
 	p = malloc(slen + 1);
 	if (p == 0)
@@ -117,6 +140,8 @@ char	*my_strdup(char *s)
 		j++;
 	}
 	p[j] = '\0';
+	if (env_flag)
+		free(s);
 	return (p);
 }
 
@@ -127,7 +152,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 	char	quote;
 	char	**new_argv;
 
-	new_argv = malloc(sizeof(char *) * (count_total_args(command) + 1 - count_op(old_argv) * 2 + 1));
+	new_argv = malloc(sizeof(char *) * (count_total_args(command) - (count_op(old_argv) * 2) + 1));
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
@@ -139,7 +164,10 @@ char	**extract_new_argv(char *command, char **old_argv)
 			i++;
 		}
 		else
-			new_argv[new_idx++] = my_strdup(old_argv[i]);
+		{
+			new_argv[new_idx] = my_strdup(old_argv[i]);
+			new_idx++;
+		}
 		i++;
 	}
 	new_argv[new_idx] = NULL;
