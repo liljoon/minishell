@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/11 22:08:50 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/13 12:47:39 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*include_env(char *s)
 	int		start_idx;
 	int		flag;
 	char	quote;
+	char	*sub;
 	char	*ret;
 
 	i = 0;
@@ -80,15 +81,16 @@ char	*include_env(char *s)
 				}
 				continue ;
 			}
-			// char *temp = my_getenv(ft_substr(s, start_idx, i - start_idx));
-			ret = my_strjoin(ret, ft_strdup(my_getenv(ft_substr(s, start_idx, i - start_idx))));
+			sub = ft_substr(s, start_idx, i - start_idx);
+			ret = my_strjoin(ret, ft_strdup(my_getenv(sub)));
+			free(sub);
 			start_idx = i;
+			continue ;
 		}
 		i++;
 	}
 	if (i - start_idx > 0)
 		ret = my_strjoin(ret, ft_substr(s, start_idx, i - start_idx));
-	// free(s);
 	return (ret);
 }
 
@@ -111,10 +113,15 @@ char	*my_strdup(char *s)
 	int		i;
 	int		j;
 	int		slen;
+	int		env_flag;
 	char	*p;
 
+	env_flag = 0;
 	if (check_env(s))
+	{
 		s = include_env(s);
+		env_flag = 1;
+	}
 	slen = ft_strlen(s);
 	p = malloc(slen + 1);
 	if (p == 0)
@@ -133,6 +140,8 @@ char	*my_strdup(char *s)
 		j++;
 	}
 	p[j] = '\0';
+	if (env_flag)
+		free(s);
 	return (p);
 }
 
@@ -143,7 +152,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 	char	quote;
 	char	**new_argv;
 
-	new_argv = malloc(sizeof(char *) * (count_total_args(command) + 1 - count_op(old_argv) * 2 + 1));
+	new_argv = malloc(sizeof(char *) * (count_total_args(command) - (count_op(old_argv) * 2) + 1));
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
@@ -155,7 +164,10 @@ char	**extract_new_argv(char *command, char **old_argv)
 			i++;
 		}
 		else
-			new_argv[new_idx++] = my_strdup(old_argv[i]);
+		{
+			new_argv[new_idx] = my_strdup(old_argv[i]);
+			new_idx++;
+		}
 		i++;
 	}
 	new_argv[new_idx] = NULL;
