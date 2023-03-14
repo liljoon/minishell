@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/11 21:02:41 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:02:26 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	check_redirections(t_token *tk)
 {
 	char	**operator;
 
-	check_heredoc_first(tk);
+	if (check_heredoc_first(tk))
+		return (1);
 	operator = tk->operator;
 	while (*operator)
 	{
