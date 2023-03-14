@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:37:51 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/11 20:44:13 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:08:55 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,19 @@ void	redirection_heredoc(char *arg)
 		free(command);
 	}
 	close(temp_fd);
-
 }
 
-void	check_heredoc_first(t_token *tk)
+void	sig_handler(int signo)
 {
-	char	**operator;
-	int		flag;
-	int		fd;
+	exit(1);
+}
+
+void	scan_heredoc_and_exit(char **operator)
+{
+	int	flag;
 
 	flag = 0;
-	operator = tk->operator;
+	signal(SIGINT, sig_handler);
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, "<<", 3) == 0)
@@ -55,10 +57,31 @@ void	check_heredoc_first(t_token *tk)
 			operator--;
 		operator += 2;
 	}
-	if (flag)
+}
+
+int	check_heredoc_first(t_token *tk)
+{
+	int		fd;
+	pid_t	pid;
+	int		ex_st;
+
+	pid = fork();
+	if (pid == 0)
 	{
-		fd = open("./.heredoc_temp", O_RDONLY);
-		dup2(fd, 0);
-		close(fd);
+		scan_heredoc_and_exit(tk->operator);
+		exit(0);
 	}
+	else
+	{
+		waitpid(pid, &ex_st, 0);
+		if (ex_st == 0)
+		{
+			fd = open("./.heredoc_temp", O_RDONLY);
+			dup2(fd, 0);
+			close(fd);
+		}
+		else
+			return (1);
+	}
+	return (0);
 }
