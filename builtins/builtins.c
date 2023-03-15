@@ -6,11 +6,17 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:06:13 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/15 14:18:19 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:31:40 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+void	exec_exit(void)
+{
+	printf("exit\n");
+	exit(0);
+}
 
 int	exec_builtins(t_token *tk)
 {
@@ -33,10 +39,7 @@ int	exec_builtins(t_token *tk)
 	else if (ft_strncmp(tk->cmd, "env", 4) == 0)
 		exec_env();
 	else if (ft_strncmp(tk->cmd, "exit", 5) == 0)
-	{
-		printf("exit\n");
-		exit(0);
-	}
+		exec_exit();
 	else
 		return (0);
 	g_shell_info.exit_status = 0;
