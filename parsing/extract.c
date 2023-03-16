@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/13 16:40:30 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/16 21:18:08 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*my_strjoin(char *s1, char *s2)
 char	*include_env(char *s)
 {
 	int		i;
-	int		start_idx;
+	int		start;
 	int		flag;
 	char	quote;
 	char	*sub;
@@ -53,7 +53,7 @@ char	*include_env(char *s)
 
 	i = 0;
 	quote = 0;
-	start_idx = 0;
+	start = 0;
 	ret = ft_strdup("");
 	while (s[i])
 	{
@@ -66,35 +66,35 @@ char	*include_env(char *s)
 		else if (s[i] == '$')
 		{
 			if (i > 0)
-				ret = my_strjoin(ret, ft_substr(s, start_idx, i - start_idx));
-			start_idx = ++i;
+				ret = my_strjoin(ret, ft_substr(s, start, i - start));
+			start = ++i;
 			if (!s[i])
 			{
-				ret = my_strjoin(ret, ft_substr(s, start_idx - 1, 1));
+				ret = my_strjoin(ret, ft_substr(s, start - 1, 1));
 				break ;
 			}
 			while ((s[i] >= 'a' && s[i] <= 'z')
-					|| (s[i] >= 'A' && s[i] <= 'Z'))
+				|| (s[i] >= 'A' && s[i] <= 'Z'))
 				i++;
-			if (i - start_idx == 0)
+			if (i - start == 0)
 			{
 				if (s[i] == '?')
 				{
 					ret = my_strjoin(ret, ft_itoa(g_shell_info.exit_status));
-					start_idx = ++i;;
+					start = ++i;
 				}
 				continue ;
 			}
-			sub = ft_substr(s, start_idx, i - start_idx);
+			sub = ft_substr(s, start, i - start);
 			ret = my_strjoin(ret, ft_strdup(my_getenv(sub)));
 			free(sub);
-			start_idx = i;
+			start = i;
 			continue ;
 		}
 		i++;
 	}
-	if (i - start_idx > 0)
-		ret = my_strjoin(ret, ft_substr(s, start_idx, i - start_idx));
+	if (i - start > 0)
+		ret = my_strjoin(ret, ft_substr(s, start, i - start));
 	return (ret);
 }
 
