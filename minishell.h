@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 22:15:41 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:00:43 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_token
 t_shell_info	g_shell_info;
 
 void	set_signal(void);
+void	sigint_nothing(int signo);
 void	fork_and_exec(t_token *tk);
 void	exec_control(t_token *tks);
 t_token	*tokenize(char *command);
