@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/16 21:21:30 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/16 21:23:49 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		step_to_last_space(char *str, int idx);
 int		count_arg_in_str(char *str);
 int		count_total_args(char *str);
 int		count_op(char **argv);
-int		count_args_and_free_sub(char *str, int start, int len);
+int		count_and_free_sub(char *str, int start, int len);
 
 void	divide_op(char *str, t_argv *argv);
 char	**divide_argv(char *command);

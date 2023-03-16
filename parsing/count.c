@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:51:52 by yham              #+#    #+#             */
-/*   Updated: 2023/03/16 21:19:02 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/16 21:24:03 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	count_total_args(char *str)
 		else if (str[i] == ' ')
 		{
 			if (i > 0)
-				args += count_args_and_free_sub(str, start, i - start);
+				args += count_and_free_sub(str, start, i - start);
 			i += step_to_last_space(str, i);
 			start = i + 1;
 		}
 		i++;
 	}
-	args += count_args_and_free_sub(str, start, i - start);
+	args += count_and_free_sub(str, start, i - start);
 	return (args);
 }
 

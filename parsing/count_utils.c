@@ -6,13 +6,13 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:28:39 by yham              #+#    #+#             */
-/*   Updated: 2023/03/16 20:50:58 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/16 21:23:41 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	count_args_and_free_sub(char *str, int start, int len)
+int	count_and_free_sub(char *str, int start, int len)
 {
 	int		args_in_str;
 	char	*sub;
