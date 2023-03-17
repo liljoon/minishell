@@ -6,11 +6,11 @@
 #    By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/13 13:47:44 by isunwoo           #+#    #+#              #
-#    Updated: 2023/03/17 10:18:08 by isunwoo          ###   ########.fr        #
+#    Updated: 2023/03/17 16:34:03 by isunwoo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS	=	#-Wall -Wextra -Werror
+CFLAGS	=	#-fsanitize=address#-Wall -Wextra -Werror -g
 
 BUILTINS_SRC	=	builtins/*.c
 PARSING_SRC		=	parsing/*.c
@@ -43,11 +43,11 @@ endif
 
 $(NAME)	:	$(SRCS) $(INCS)
 	@make -C ./libft
-	@$(CC) -g $(SRCS) $(CFLAGS) $(READLINE_I) $(READLINE_L) -L./libft -lft -o $@
+	@$(CC) $(SRCS) $(CFLAGS) $(READLINE_I) $(READLINE_L) -L./libft -lft -o $@
 
 test	: $(TEST_SRCS) $(INCS)
 	@make -C ./libft
-	@$(CC) -g $(TEST_SRCS) $(CFLAGS) $(READLINE_I) $(READLINE_L) -L./libft -lft -o $@
+	@$(CC) $(TEST_SRCS) $(CFLAGS) $(READLINE_I) $(READLINE_L) -L./libft -lft -o $@
 
 all	: $(NAME)
 
