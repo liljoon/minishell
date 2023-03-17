@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:45:04 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 19:10:45 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,9 @@
 
 void	exec_token(t_token *tk)
 {
-	if (!check_redirections(tk) && *(tk->argv) && !exec_builtins(tk))
+	if (!check_redirections(tk) && !exec_builtins(tk))
 		check_path_and_exec(tk->argv);
 	exit(127);
-}
-
-void	child_process(int temp_fd, int fd[], t_token *tks)
-{
-	if (temp_fd != -1)
-		dup2(temp_fd, 0);
-	close(temp_fd);
-	close(fd[0]);
-	if (tks->next)
-		dup2(fd[1], 1);
-	close(fd[1]);
-	exec_token(tks);
-}
-
-void	parent_process(int temp_fd, int fd[])
-{
-	if (temp_fd != -1)
-		close(temp_fd);
-	close(fd[1]);
-	temp_fd = fd[0];
 }
 
 void	set_pipe_and_exec(t_token *tks, int n)
@@ -44,22 +24,39 @@ void	set_pipe_and_exec(t_token *tks, int n)
 	int		fd[2];
 	pid_t	pid;
 	int		temp_fd;
+	int		cnt;
 
+	cnt = 0;
 	temp_fd = -1;
 	while (tks)
 	{
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
-			child_process(temp_fd, fd, tks);
+		{
+			if (temp_fd != -1)
+				dup2(temp_fd, 0);
+			close(temp_fd);
+			close(fd[0]);
+			if (tks->next)
+				dup2(fd[1], 1);
+			close(fd[1]);
+			exec_token(tks);
+		}
 		else
-			parent_process(temp_fd, fd);
+		{
+			if (temp_fd != -1)
+				close(temp_fd);
+			close(fd[1]);
+			temp_fd = fd[0];
+		}
+		cnt++;
 		tks = tks->next;
 	}
 	close(temp_fd);
 	waitpid(pid, &g_shell_info.exit_status, 0);
-	n--;
-	while (n--)
+	cnt--;
+	while (cnt--)
 		wait(0);
 	g_shell_info.exit_status /= 256;
 }
