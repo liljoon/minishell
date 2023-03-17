@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:51:52 by yham              #+#    #+#             */
-/*   Updated: 2023/03/16 21:24:03 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 16:13:10 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	count_total_args(char *str)
 	int		i;
 	int		args;
 	int		start;
-	char	*sub;
 
 	i = 0;
 	args = 0;
@@ -67,7 +66,6 @@ int	count_total_args(char *str)
 int	count_op(char **argv)
 {
 	int	i;
-	int	j;
 	int	op;
 
 	i = 0;
