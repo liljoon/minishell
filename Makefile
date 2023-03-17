@@ -6,11 +6,11 @@
 #    By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/13 13:47:44 by isunwoo           #+#    #+#              #
-#    Updated: 2023/03/17 16:34:03 by isunwoo          ###   ########.fr        #
+#    Updated: 2023/03/17 18:43:49 by isunwoo          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS	=	#-fsanitize=address#-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror
 
 BUILTINS_SRC	=	builtins/*.c
 PARSING_SRC		=	parsing/*.c

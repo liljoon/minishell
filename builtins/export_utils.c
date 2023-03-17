@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:19:31 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 14:03:19 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:49:02 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	**split_env(char *str)
 	int		idx;
 
 	ret = malloc(sizeof(char *) * 3);
+	idx = 0;
 	while (str[idx])
 	{
 		if (str[idx] == '=')

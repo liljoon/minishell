@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:22:22 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 15:05:52 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:50:16 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	print_envp_sorted(void)
 	char	**envp;
 	int		step;
 	int		i;
-	char	*temp;
 	int		size;
 
 	envp = get_envp();
@@ -83,7 +82,6 @@ void	print_envp_sorted(void)
 
 void	exec_export(char *argv[])
 {
-	t_node	*idx;
 	char	**spl;
 
 	argv++;

@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 17:27:09 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:45:42 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ int	count_linked_list(t_token *tks)
 
 void	exec_control(t_token *tks)
 {
-	t_token	*idx;
 	int		len;
-	pid_t	pid;
 
 	len = count_linked_list(tks);
 	if (len == 0)

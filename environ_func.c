@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:51:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 12:12:34 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:11:39 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,6 @@ t_node	*find_env_node(char *str)
 		idx = idx->next;
 	}
 	return (idx);
-}
-
-void	init_environ(char *envp[])
-{
-	while (*envp)
-	{
-		push_back(&(g_shell_info.envl), *envp);
-		envp++;
-	}
 }
 
 void	find_and_del_env(char *_data)
@@ -101,31 +92,4 @@ void	modify_env(char *name, char *data)
 	}
 	idx->data = new_str;
 	free(old);
-}
-
-char	**get_envp(void)
-{
-	char	**ret;
-	int		idx;
-	t_node	*temp;
-
-	idx = 0;
-	temp = g_shell_info.envl;
-	while (temp)
-	{
-		idx++;
-		temp = temp->next;
-	}
-	ret = malloc(sizeof(char *) * (idx + 1));
-	idx = 0;
-	temp = g_shell_info.envl;
-	while (temp)
-	{
-		ret[idx] = malloc(sizeof(char *) * (ft_strlen(temp->data) + 1));
-		ft_strlcpy(ret[idx], temp->data, ft_strlen(temp->data) + 1);
-		idx++;
-		temp = temp->next;
-	}
-	ret[idx] = NULL;
-	return (ret);
 }
