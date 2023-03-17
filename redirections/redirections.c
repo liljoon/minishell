@@ -6,19 +6,25 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/14 23:02:26 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 21:49:20 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirections.h"
 
-void	redirection_output(char *file)
+int	redirection_output(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		printf_err(file, NULL, strerror(errno));
+		return (1);
+	}
 	dup2(fd, 1);
 	close(fd);
+	return (0);
 }
 
 int	redirection_input(char *file)
@@ -36,33 +42,42 @@ int	redirection_input(char *file)
 	return (0);
 }
 
-void	redirection_append(char *file)
+int	redirection_append(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		printf_err(file, NULL, strerror(errno));
+		return (1);
+	}
 	dup2(fd, 1);
 	close(fd);
+	return (0);
 }
 
-int	check_redirections(t_token *tk)
+int	check_redirections(t_token *tk, char **operator)
 {
-	char	**operator;
-
 	if (check_heredoc_first(tk))
 		return (1);
-	operator = tk->operator;
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, ">", 2) == 0)
-			redirection_output(*(operator + 1));
+		{
+			if (redirection_output(*(operator + 1)))
+				return (1);
+		}
 		else if (ft_strncmp(*operator, "<", 2) == 0)
 		{
 			if (redirection_input(*(operator + 1)))
 				return (1);
 		}
 		else if (ft_strncmp(*operator, ">>", 3) == 0)
-			redirection_append(*(operator + 1));
+		{
+			if (redirection_append(*(operator + 1)))
+				return (1);
+		}
 		else
 			operator--;
 		operator += 2;

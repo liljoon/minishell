@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:45:42 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 21:48:38 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	exec_control(t_token *tks)
 		return ;
 	if (len == 1)
 	{
-		if (!check_redirections(tks) && *(tks->argv) && !exec_builtins(tks))
+		if (!check_redirections(tks, tks->operator) \
+			&& *(tks->argv) && !exec_builtins(tks))
 			fork_and_exec(tks);
 	}
 	else

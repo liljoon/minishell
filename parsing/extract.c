@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 20:40:18 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 21:32:43 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 		}
 		else
 			new_argv[new_idx++] = my_strdup(old_argv[i]);
-		if (!new_argv[new_idx - 1])
+		if (new_idx > 0 && !new_argv[new_idx - 1])
 			new_idx--;
 		i++;
 	}
@@ -40,15 +40,14 @@ char	**extract_new_argv(char *command, char **old_argv)
 	return (new_argv);
 }
 
-char	**handle_op_error(char **operator, int idx)
+void	handle_op_error(t_token *tk)
 {
 	printf_err(NULL, NULL, "syntax error");
-	operator[idx] = NULL;
-	free_chars(operator);
-	return (NULL);
+	g_shell_info.exit_status = 258;
+	init_token_null(tk);
 }
 
-char	**extract_op(char **old_argv)
+void	extract_op(t_token *tk, char **old_argv, char **new_argv)
 {
 	int		i;
 	int		op_idx;
@@ -66,12 +65,12 @@ char	**extract_op(char **old_argv)
 			operator[op_idx] = my_strdup(old_argv[i]);
 			if (!old_argv[i] || !operator[op_idx] \
 				|| operator[op_idx][0] == '<' || operator[op_idx][0] == '>')
-				return (handle_op_error(operator, op_idx));
+				return (handle_op_error(tk));
 			else
 				op_idx++;
 		}
 		i++;
 	}
 	operator[op_idx] = NULL;
-	return (operator);
+	init_token(tk, new_argv, operator);
 }

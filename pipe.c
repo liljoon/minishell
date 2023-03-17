@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 19:17:46 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 21:48:59 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	exec_token(t_token *tk)
 {
-	if (!check_redirections(tk) && *(tk->argv) && !exec_builtins(tk))
+	if (!check_redirections(tk, tk->operator) \
+		&& *(tk->argv) && !exec_builtins(tk))
 		check_path_and_exec(tk->argv);
 	exit(127);
 }

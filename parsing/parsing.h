@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 18:25:31 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 21:20:14 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_dup_tool
 
 t_token	*tokenize(char *command);
 int		check_exceptions(char *command);
+void	init_token(t_token *tk, char **_argv, char **_operator);
+void	init_token_null(t_token *tk);
 
 int		step_to_last_quote(char *str, int idx, char quote);
 int		step_to_last_redir(char *str, int idx, char redir);
@@ -52,7 +54,7 @@ char	**divide_argv(char *command);
 void	divide_and_free_sub(t_argv *argv, char *str, int start, int len);
 
 char	**extract_new_argv(char *command, char **old_argv);
-char	**extract_op(char **old_argv);
+void	extract_op(t_token *tk, char **old_argv, char **new_argv);
 char	*my_strdup(char *s);
 char	*include_env(char *s);
 

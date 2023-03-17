@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:33:15 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 18:21:06 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 20:56:35 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	handle_syntax_error(void)
 {
 	printf_err(NULL, NULL, "syntax error");
+	g_shell_info.exit_status = 258;
 	return (1);
 }
 

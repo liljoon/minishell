@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 12:13:18 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 21:48:49 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*tokenize(char *command);
 int		exec_builtins(t_token *tk);
 
 void	trans_env(char *argv[]);
-int		check_redirections(t_token *tk);
+int		check_redirections(t_token *tk, char **operator);
 void	init_environ(char *envp[]);
 t_node	*find_env_node(char *str);
 char	*my_getenv(char *_data);
