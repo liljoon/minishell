@@ -6,16 +6,22 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/11 20:47:22 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 15:07:23 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-// void	tokenize(char *command)
+void	init_token(t_token *tk, char **_argv, char **_operator)
+{
+	tk->argv = _argv;
+	tk->operator = _operator;
+	tk->cmd = tk->argv[0];
+	tk->next = NULL;
+}
+
 t_token	*tokenize(char *command)
 {
-	int		i;
 	char	**old_argv;
 	char	**new_argv;
 	char	**operator;
@@ -24,23 +30,10 @@ t_token	*tokenize(char *command)
 	if (check_exceptions(command))
 		return (NULL);
 	tk = malloc(sizeof(t_token));
-	// printf("args:%d\n", count_total_args(command));
 	old_argv = divide_argv(command);
 	new_argv = extract_new_argv(command, old_argv);
 	operator = extract_op(old_argv);
-	tk->argv = new_argv;
-	tk->operator = operator;
-	tk->cmd = tk->argv[0];
-	tk->next = NULL;
-	// i = -1;
-	// while (old_argv[++i])
-	// 	printf("old:%s\n", old_argv[i]);
-	// i = -1;
-	// while (new_argv[++i])
-	// 	printf("new:%s\n", new_argv[i]);
-	// i = -1;
-	// while (operator[++i])
-	// 	printf("op:%s\n", operator[i]);
+	init_token(tk, new_argv, operator);
 	free_chars(old_argv);
 	return (tk);
 }
