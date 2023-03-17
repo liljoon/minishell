@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 18:50:10 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 20:40:18 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	**extract_new_argv(char *command, char **old_argv)
 			i++;
 		}
 		else
-			new_argv[new_idx] = my_strdup(old_argv[i]);
-		if (new_argv[new_idx])
-			new_idx++;
+			new_argv[new_idx++] = my_strdup(old_argv[i]);
+		if (!new_argv[new_idx - 1])
+			new_idx--;
 		i++;
 	}
 	new_argv[new_idx] = NULL;
