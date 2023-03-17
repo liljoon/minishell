@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:33:15 by yham              #+#    #+#             */
-/*   Updated: 2023/03/15 16:53:46 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 18:21:06 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,16 @@ int	handle_syntax_error(void)
 
 int	check_quote(char *command)
 {
-	int		i;
-	char	quote;
+	int	i;
 
 	i = 0;
 	while (command[i])
 	{
 		if (command[i] == '\'' || command[i] == '\"')
 		{
-			quote = command[i];
-			while (command[i + 1] && command[i + 1] != quote)
-				i++;
-			if (!command[i + 1])
+			i += step_to_last_quote(command, i, command[i]);
+			if (!command[i])
 				return (handle_syntax_error());
-			i++;
 		}
 		i++;
 	}
@@ -42,25 +38,18 @@ int	check_quote(char *command)
 
 int	check_redir(char *command)
 {
-	int		i;
-	int		start;
-	char	quote;
+	int	i;
+	int	start;
 
 	i = 0;
 	while (command[i])
 	{
 		if (command[i] == '\'' || command[i] == '\"')
-		{
-			quote = command[i];
-			while (command[++i] && command[++i] != quote)
-				;
-		}
+			i += step_to_last_quote(command, i, command[i]);
 		else if (command[i] == '<' || command[i] == '>')
 		{
 			start = i;
-			while ((command[i] == '<' && command[i + 1] == '<')
-				|| (command[i] == '>' && command[i + 1] == '>'))
-				i++;
+			i += step_to_last_redir(command, i, command[i]);
 			if (i - start + 1 > 2)
 				return (handle_syntax_error());
 		}

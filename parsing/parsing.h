@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 15:06:59 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 18:25:31 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_dup_tool
 	char	*src;
 	char	*res;
 	int		idx;
+	int		null_flag;
 }	t_dup_tool;
 
 t_token	*tokenize(char *command);
