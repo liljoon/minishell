@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:22:22 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 14:29:52 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:05:52 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,12 @@ void	exec_export(char *argv[])
 	}
 	while (*argv)
 	{
+		spl = split_env(*argv);
 		if (find_env_node(spl[0]) == NULL)
 			push_back(&g_shell_info.envl, *argv);
 		else if (spl[1] != NULL)
-		{
 			modify_env(spl[0], spl[1]);
-			clear_all(spl);
-			spl = split_env(*argv);
-		}
+		clear_all(spl);
 		argv++;
 	}
 }
