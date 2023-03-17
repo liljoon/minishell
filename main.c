@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:21:06 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:51:10 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	main(int argc, char *argv[], char *envp[])
 	t_token	*tks;
 	int		std_fd[2];
 
+	if (!argc || !argv)
+		return (-1);
 	init_environ(envp);
 	modify_env("OLDPWD", NULL);
 	while (1)

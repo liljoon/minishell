@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:00:02 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/16 23:00:35 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:47:16 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ void	set_signal(void)
 
 void	sigint_nothing(int signo)
 {
+	if (signo != SIGINT)
+		return ;
 	return ;
 }

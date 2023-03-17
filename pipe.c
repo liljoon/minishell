@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:41:50 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:45:04 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	set_pipe_and_exec(t_token *tks, int n)
 	int		fd[2];
 	pid_t	pid;
 	int		temp_fd;
-	int		cnt;
 
-	cnt = 0;
 	temp_fd = -1;
 	while (tks)
 	{
@@ -56,13 +54,12 @@ void	set_pipe_and_exec(t_token *tks, int n)
 			child_process(temp_fd, fd, tks);
 		else
 			parent_process(temp_fd, fd);
-		cnt++;
 		tks = tks->next;
 	}
 	close(temp_fd);
 	waitpid(pid, &g_shell_info.exit_status, 0);
-	cnt--;
-	while (cnt--)
+	n--;
+	while (n--)
 		wait(0);
 	g_shell_info.exit_status /= 256;
 }

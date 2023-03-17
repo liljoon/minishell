@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:37:51 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 16:43:03 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:48:02 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	redirection_heredoc(char *arg)
 
 void	sig_handler(int signo)
 {
-	exit(1);
+	if (signo == SIGINT)
+		exit(1);
 }
 
 void	scan_heredoc_and_exit(char **operator)
