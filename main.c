@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/15 14:25:47 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:00:47 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	main(int argc, char *argv[], char *envp[])
 	t_token	*tks;
 	int		std_fd[2];
 
-	set_signal();
 	init_environ(envp);
 	modify_env("OLDPWD", NULL);
 	while (1)
 	{
+		set_signal();
 		command = readline("minishell$ ");
 		if (!command)
 			exit_minishell();
@@ -41,6 +41,7 @@ int	main(int argc, char *argv[], char *envp[])
 			free(command);
 			continue ;
 		}
+		signal(SIGINT, sigint_nothing);
 		copy_std_fd(std_fd);
 		tks = split_pipe_and_tokenize(command);
 		exec_control(tks);

@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/16 17:47:22 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 17:27:09 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_path_and_exec(char *argv[])
 	else
 	{
 		old_argv0 = argv[0];
-		path = getenv("PATH");
+		path = my_getenv("PATH");
 		paths = ft_split(path, ':');
 		while (*paths)
 		{
@@ -39,21 +39,6 @@ void	check_path_and_exec(char *argv[])
 		printf_err(old_argv0, NULL, "command not found");
 	}
 	exit(127);
-}
-
-void	trans_env(char *argv[])
-{
-	while (*argv)
-	{
-		if ((*argv)[0] == '$')
-		{
-			if ((*argv)[1] == '?')
-				*argv = ft_itoa(g_shell_info.exit_status);
-			else
-				*argv = getenv(&(*argv)[1]);
-		}
-		argv++;
-	}
 }
 
 void	fork_and_exec(t_token *tk)
@@ -95,18 +80,9 @@ void	exec_control(t_token *tks)
 		return ;
 	if (len == 1)
 	{
-		if (!check_redirections(tks) && !exec_builtins(tks))
+		if (!check_redirections(tks) && *(tks->argv) && !exec_builtins(tks))
 			fork_and_exec(tks);
 	}
 	else
-	{
-		pid = fork();
-		if (pid == 0)
-			set_pipe_and_exec(tks, len);
-		else
-		{
-			waitpid(pid, &g_shell_info.exit_status, 0);
-			g_shell_info.exit_status /= 256;
-		}
-	}
+		set_pipe_and_exec(tks, len);
 }
