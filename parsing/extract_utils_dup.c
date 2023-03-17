@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:57:14 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 15:00:10 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 17:14:05 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@ int	check_env(char *s)
 
 void	init_dup_tool(t_dup_tool *dup, char *s)
 {
+	dup->null_flag = 0;
 	if (check_env(s))
+	{
 		dup->src = include_env(s);
+		if (!dup->src)
+			dup->null_flag = 1;
+	}
 	else
 		dup->src = ft_strdup(s);
 	dup->res = malloc(ft_strlen(dup->src) + 1);
@@ -55,6 +60,8 @@ char	*my_strdup(char *s)
 	t_dup_tool	dup;
 
 	init_dup_tool(&dup, s);
+	if (dup.null_flag)
+		return (NULL);
 	i = 0;
 	while (dup.src[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 15:07:23 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 18:23:31 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ void	init_token(t_token *tk, char **_argv, char **_operator)
 	tk->next = NULL;
 }
 
+void	init_token_null(t_token *tk)
+{
+	tk->argv = NULL;
+	tk->operator = NULL;
+	tk->cmd = NULL;
+	tk->next = NULL;
+}
+
 t_token	*tokenize(char *command)
 {
 	char	**old_argv;
@@ -28,7 +36,10 @@ t_token	*tokenize(char *command)
 	t_token	*tk;
 
 	if (check_exceptions(command))
-		return (NULL);
+	{
+		init_token_null(tk);
+		return (tk);
+	}
 	tk = malloc(sizeof(t_token));
 	old_argv = divide_argv(command);
 	new_argv = extract_new_argv(command, old_argv);
