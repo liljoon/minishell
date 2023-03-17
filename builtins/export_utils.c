@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 22:13:03 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 12:38:31 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/03/17 12:19:31 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/17 14:03:19 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
-# include "../minishell.h"
+#include "builtins.h"
 
-void	exec_unset(char *argv[]);
-void	exec_env(void);
-void	exec_pwd(void);
-int		exec_cd(char *argv[]);
-void	exec_echo(char *argv[]);
-void	exec_export(char *argv[]);
-char	**split_env(char *str);
+char	**split_env(char *str)
+{
+	char	**ret;
+	int		idx;
 
-#endif
+	ret = malloc(sizeof(char *) * 3);
+	while (str[idx])
+	{
+		if (str[idx] == '=')
+			break ;
+		idx++;
+	}
+	ret[0] = ft_substr(str, 0, idx);
+	if (str[idx] == '\0' || str[idx + 1] == '\0')
+		ret[1] = NULL;
+	else
+		ret[1] = ft_strdup(str + idx + 1);
+	ret[2] = NULL;
+	return (ret);
+}
