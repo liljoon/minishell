@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 18:14:10 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 18:50:10 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**extract_new_argv(char *command, char **old_argv)
 	return (new_argv);
 }
 
-char	*handle_op_error(char **operator, int idx)
+char	**handle_op_error(char **operator, int idx)
 {
 	printf_err(NULL, NULL, "syntax error");
 	operator[idx] = NULL;
