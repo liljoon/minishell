@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/16 22:43:09 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 18:41:50 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,29 @@
 
 void	exec_token(t_token *tk)
 {
-	if (!check_redirections(tk) && !exec_builtins(tk))
+	if (!check_redirections(tk) && *(tk->argv) && !exec_builtins(tk))
 		check_path_and_exec(tk->argv);
 	exit(127);
+}
+
+void	child_process(int temp_fd, int fd[], t_token *tks)
+{
+	if (temp_fd != -1)
+		dup2(temp_fd, 0);
+	close(temp_fd);
+	close(fd[0]);
+	if (tks->next)
+		dup2(fd[1], 1);
+	close(fd[1]);
+	exec_token(tks);
+}
+
+void	parent_process(int temp_fd, int fd[])
+{
+	if (temp_fd != -1)
+		close(temp_fd);
+	close(fd[1]);
+	temp_fd = fd[0];
 }
 
 void	set_pipe_and_exec(t_token *tks, int n)
@@ -33,25 +53,9 @@ void	set_pipe_and_exec(t_token *tks, int n)
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
-		{
-			if (temp_fd != -1)
-				dup2(temp_fd, 0);
-			close(temp_fd);
-			close(fd[0]);
-			if ((tks->next))
-			{
-				dup2(fd[1], 1);
-			}
-			close(fd[1]);
-			exec_token(tks);
-		}
+			child_process(temp_fd, fd, tks);
 		else
-		{
-			if (temp_fd != -1)
-				close(temp_fd);
-			close(fd[1]);
-			temp_fd = fd[0];
-		}
+			parent_process(temp_fd, fd);
 		cnt++;
 		tks = tks->next;
 	}
