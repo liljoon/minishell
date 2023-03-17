@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/13 17:36:45 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 15:07:23 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	init_token(t_token *tk, char **_argv, char **_operator)
 
 t_token	*tokenize(char *command)
 {
-	int		i;
 	char	**old_argv;
 	char	**new_argv;
 	char	**operator;

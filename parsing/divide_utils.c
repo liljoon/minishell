@@ -6,17 +6,11 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 21:19:52 by yham              #+#    #+#             */
-/*   Updated: 2023/03/16 21:21:33 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 15:06:57 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-void	init_argv(t_argv *argv, char *command)
-{
-	argv->data = malloc(sizeof(char *) * (count_total_args(command) + 1));
-	argv->idx = 0;
-}
 
 int	check_op(char *str)
 {
@@ -32,7 +26,35 @@ int	check_op(char *str)
 	return (0);
 }
 
-void	div_and_free_sub(t_argv *argv, char *str, int start, int len)
+void	divide_op(char *str, t_argv *argv)
+{
+	int		i;
+	int		start;
+
+	i = 0;
+	start = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			i += step_to_last_quote(str, i, str[i]);
+		else if (str[i] == '<' || str[i] == '>')
+		{
+			if (i > 0)
+				argv->data[argv->idx++] = ft_substr(str, start, i - start);
+			start = i;
+			i += step_to_last_redir(str, i, str[i]);
+			if (str[i + 1])
+			{
+				argv->data[argv->idx++] = ft_substr(str, start, i - start + 1);
+				start = i + 1;
+			}
+		}
+		i++;
+	}
+	argv->data[argv->idx++] = ft_substr(str, start, i - start);
+}
+
+void	divide_and_free_sub(t_argv *argv, char *str, int start, int len)
 {
 	char	*sub;
 
