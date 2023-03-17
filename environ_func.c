@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:51:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/10 18:04:46 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 12:12:34 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ int	is_env_str(char *env_str, char *str)
 		return (1);
 	else
 		return (0);
+}
+
+t_node	*find_env_node(char *str)
+{
+	t_node	*idx;
+
+	idx = g_shell_info.envl;
+	while (idx)
+	{
+		if (is_env_str(idx->data, str))
+			break ;
+		idx = idx->next;
+	}
+	return (idx);
 }
 
 void	init_environ(char *envp[])
@@ -59,13 +73,7 @@ char	*my_getenv(char *_data)
 {
 	t_node	*idx;
 
-	idx = g_shell_info.envl;
-	while (idx != NULL)
-	{
-		if (is_env_str(idx->data, _data))
-			break ;
-		idx = idx->next;
-	}
+	idx = find_env_node(_data);
 	if (idx == NULL || *(idx->data + ft_strlen(_data)) != '=')
 		return ("");
 	return (idx->data + ft_strlen(_data) + 1);
@@ -77,13 +85,7 @@ void	modify_env(char *name, char *data)
 	char	*old;
 	char	*new_str;
 
-	idx = g_shell_info.envl;
-	while (idx)
-	{
-		if (is_env_str(idx->data, name))
-			break ;
-		idx = idx->next;
-	}
+	idx = find_env_node(name);
 	if (idx == NULL)
 		return ;
 	old = idx->data;

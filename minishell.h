@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/16 23:00:43 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/17 12:13:18 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		exec_builtins(t_token *tk);
 void	trans_env(char *argv[]);
 int		check_redirections(t_token *tk);
 void	init_environ(char *envp[]);
+t_node	*find_env_node(char *str);
 char	*my_getenv(char *_data);
 char	**get_envp(void);
 void	set_pipe_and_exec(t_token *tks, int n);
