@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 21:54:09 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:47:22 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_path_and_exec(char *argv[])
 	char	**paths;
 	char	*old_argv0;
 
-	if (argv[0][0] == '/')
+	if (!ft_isalnum(argv[0][0]))
 	{
 		execve(argv[0], argv, get_envp());
 		printf_err(argv[0], NULL, strerror(errno));

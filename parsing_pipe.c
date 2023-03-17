@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 22:16:01 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/09 20:21:38 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:23:05 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,5 @@ t_token	*split_pipe_and_tokenize(char *command)
 		splited_command++;
 	}
 	free_chars(temp);
-
 	return (head);
 }

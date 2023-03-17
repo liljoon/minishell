@@ -29,7 +29,7 @@ INCS	=	minishell.h	linked_list/linked_list.h builtins/builtins.h
 
 NAME	=	minishell
 
-ON_CLUSTER = 1
+ON_CLUSTER = 0
 
 ifeq ($(ON_CLUSTER) , 0)
 	READLINE_I = -I/opt/homebrew/opt/readline/include
