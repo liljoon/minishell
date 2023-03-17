@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:00:02 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/13 20:08:49 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/16 23:00:35 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,9 @@ void	set_signal(void)
 	tcsetattr(STDOUT_FILENO, TCSANOW, &term);
 	signal(SIGINT, (void *)sigint_handler);
 	signal(SIGQUIT, (void *)sigquit_handler);
+}
+
+void	sigint_nothing(int signo)
+{
+	return ;
 }
