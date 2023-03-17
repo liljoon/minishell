@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 15:02:51 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/17 16:13:25 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	**extract_new_argv(char *command, char **old_argv)
 {
 	int		i;
 	int		new_idx;
-	char	quote;
 	char	**new_argv;
 
 	new_argv = malloc(sizeof(char *) * \
