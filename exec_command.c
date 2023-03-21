@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 12:29:51 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 15:46:27 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void	exec_control(t_token *tks)
 		set_pipe_and_exec(tks, len);
 		while (tks)
 		{
-			close(tks->heredoc_fd);
+			if (tks->heredoc_fd != -1)
+				close(tks->heredoc_fd);
 			tks = tks->next;
 		}
 	}

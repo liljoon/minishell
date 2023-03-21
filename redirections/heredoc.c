@@ -6,23 +6,39 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:37:51 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 12:29:34 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 17:13:12 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirections.h"
 
-void	sig_handler(int signo)
+void	readline_heredoc(int fd[], char *eof)
 {
-	if (signo == SIGINT)
-		exit(1);
+	char	*command;
+
+	close(fd[0]);
+	while (1)
+	{
+		command = readline("> ");
+		if (!command)
+			break ;
+		else if (ft_strncmp(eof, command, ft_strlen(eof) + 1) == 0)
+		{
+			free(command);
+			break ;
+		}
+		write(fd[1], command, ft_strlen(command));
+		write(fd[1], "\n", 1);
+		free(command);
+	}
+	close(fd[1]);
+	exit(0);
 }
 
 int	read_heredoc(int *herdoc_fd, char *eof)
 {
 	pid_t	pid;
 	int		fd[2];
-	char	*command;
 	int		error;
 
 	error = 0;
@@ -30,24 +46,8 @@ int	read_heredoc(int *herdoc_fd, char *eof)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, sig_handler);
-		close(fd[0]);
-		while (1)
-		{
-			command = readline("> ");
-			if (!command)
-				break ;
-			else if (ft_strncmp(eof, command, ft_strlen(eof) + 1) == 0)
-			{
-				free(command);
-				break ;
-			}
-			write(fd[1], command, ft_strlen(command));
-			write(fd[1], "\n", 1);
-			free(command);
-		}
-		close(fd[1]);
-		exit(0);
+		signal(SIGINT, sigint_handler_heredoc);
+		readline_heredoc(fd, eof);
 	}
 	else
 	{
