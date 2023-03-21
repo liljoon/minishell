@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:59:35 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 15:06:49 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 20:22:56 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	**divide_argv(char *command)
 	start = 0;
 	while (command[i])
 	{
-		if (command[i] == '\'' || command[i] == '\"')
+		if (is_quote(command[i]))
 			i += step_to_last_quote(command, i, command[i]);
-		else if (command[i] == ' ')
+		else if (is_space(command[i]))
 		{
 			if (i > 0)
 				divide_and_free_sub(&argv, command, \
@@ -41,7 +41,8 @@ char	**divide_argv(char *command)
 		}
 		i++;
 	}
-	divide_and_free_sub(&argv, command, start, i - start);
+	if (i > 0 && !(is_quote(command[i - 1]) || is_space(command[i - 1])))
+		divide_and_free_sub(&argv, command, start, i - start);
 	argv.data[argv.idx] = NULL;
 	return (argv.data);
 }

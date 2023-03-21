@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 21:32:43 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 21:00:45 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ char	**extract_new_argv(char *command, char **old_argv)
 	char	**new_argv;
 
 	new_argv = malloc(sizeof(char *) * \
-				(count_total_args(command) - (count_op(old_argv) * 2) + 1));
+				(count_total_args(command) - count_op(old_argv) + 1));
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
 	{
-		if (old_argv[i][0] == '<' || old_argv[i][0] == '>')
+		if (is_redir(old_argv[i][0]))
 		{
-			if (!old_argv[i + 1])
-				break ;
-			i++;
+			if (!old_argv[++i] || is_redir(old_argv[i][0]))
+				continue ;
 		}
 		else
 			new_argv[new_idx++] = my_strdup(old_argv[i]);
@@ -58,13 +57,14 @@ void	extract_op(t_token *tk, char **old_argv, char **new_argv)
 	op_idx = 0;
 	while (old_argv[i])
 	{
-		if (old_argv[i][0] == '<' || old_argv[i][0] == '>')
+		if (is_redir(old_argv[i][0]))
 		{
 			operator[op_idx++] = ft_strdup(old_argv[i]);
-			i++;
+			if (!old_argv[++i])
+				return (handle_op_error(tk));
 			operator[op_idx] = my_strdup(old_argv[i]);
 			if (!old_argv[i] || !operator[op_idx] \
-				|| operator[op_idx][0] == '<' || operator[op_idx][0] == '>')
+				|| is_redir(operator[op_idx][0]))
 				return (handle_op_error(tk));
 			else
 				op_idx++;

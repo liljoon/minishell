@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 21:19:52 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 15:06:57 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 20:23:38 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_op(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '<' || str[i] == '>')
+		if (is_redir(str[i]))
 			return (1);
 		i++;
 	}
@@ -35,9 +35,9 @@ void	divide_op(char *str, t_argv *argv)
 	start = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (is_quote(str[i]))
 			i += step_to_last_quote(str, i, str[i]);
-		else if (str[i] == '<' || str[i] == '>')
+		else if (is_redir(str[i]))
 		{
 			if (i > 0)
 				argv->data[argv->idx++] = ft_substr(str, start, i - start);
@@ -51,7 +51,8 @@ void	divide_op(char *str, t_argv *argv)
 		}
 		i++;
 	}
-	argv->data[argv->idx++] = ft_substr(str, start, i - start);
+	if (str[start])
+		argv->data[argv->idx++] = ft_substr(str, start, i - start);
 }
 
 void	divide_and_free_sub(t_argv *argv, char *str, int start, int len)

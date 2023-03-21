@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:33:15 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 20:56:35 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 20:24:31 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_quote(char *command)
 	i = 0;
 	while (command[i])
 	{
-		if (command[i] == '\'' || command[i] == '\"')
+		if (is_quote(command[i]))
 		{
 			i += step_to_last_quote(command, i, command[i]);
 			if (!command[i])
@@ -45,9 +45,9 @@ int	check_redir(char *command)
 	i = 0;
 	while (command[i])
 	{
-		if (command[i] == '\'' || command[i] == '\"')
+		if (is_quote(command[i]))
 			i += step_to_last_quote(command, i, command[i]);
-		else if (command[i] == '<' || command[i] == '>')
+		else if (is_redir(command[i]))
 		{
 			start = i;
 			i += step_to_last_redir(command, i, command[i]);
