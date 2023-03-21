@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/21 20:33:03 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 21:00:45 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ char	**extract_new_argv(char *command, char **old_argv)
 	char	**new_argv;
 
 	new_argv = malloc(sizeof(char *) * \
-				(count_total_args(command) - (count_op(old_argv) * 2) + 1));
+				(count_total_args(command) - count_op(old_argv) + 1));
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
 	{
 		if (is_redir(old_argv[i][0]))
 		{
-			if (!old_argv[i + 1])
-				break ;
-			i++;
+			if (!old_argv[++i] || is_redir(old_argv[i][0]))
+				continue ;
 		}
 		else
 			new_argv[new_idx++] = my_strdup(old_argv[i]);
