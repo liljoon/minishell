@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:37:51 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 17:13:12 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 22:02:56 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	read_heredoc(int *herdoc_fd, char *eof)
 		waitpid(pid, &error, 0);
 		if (error)
 		{
+			g_shell_info.exit_status = 1;
 			close(fd[0]);
 			return (1);
 		}

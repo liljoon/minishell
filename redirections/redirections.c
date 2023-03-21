@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 11:21:36 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 21:59:32 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	redirection_output(char *file)
 	if (fd == -1)
 	{
 		printf_err(file, NULL, strerror(errno));
+		g_shell_info.exit_status = 1;
 		return (1);
 	}
 	dup2(fd, 1);
@@ -35,6 +36,7 @@ int	redirection_input(char *file)
 	if (fd == -1)
 	{
 		printf_err(file, NULL, strerror(errno));
+		g_shell_info.exit_status = 1;
 		return (1);
 	}
 	dup2(fd, 0);
@@ -50,6 +52,7 @@ int	redirection_append(char *file)
 	if (fd == -1)
 	{
 		printf_err(file, NULL, strerror(errno));
+		g_shell_info.exit_status = 1;
 		return (1);
 	}
 	dup2(fd, 1);
