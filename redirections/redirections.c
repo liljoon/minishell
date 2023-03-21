@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:11:58 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 21:49:20 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 11:21:36 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	redirection_append(char *file)
 
 int	check_redirections(t_token *tk, char **operator)
 {
-	if (check_heredoc_first(tk))
-		return (1);
 	while (*operator)
 	{
 		if (ft_strncmp(*operator, ">", 2) == 0)
@@ -78,6 +76,8 @@ int	check_redirections(t_token *tk, char **operator)
 			if (redirection_append(*(operator + 1)))
 				return (1);
 		}
+		else if (ft_strncmp(*operator, "<<", 3) == 0)
+			set_heredoc(tk);
 		else
 			operator--;
 		operator += 2;

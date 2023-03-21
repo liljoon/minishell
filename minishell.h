@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 21:48:49 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 11:33:32 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_token
 	char			*cmd;
 	char			**argv;
 	char			**operator;
+	int				heredoc_fd;
 	struct s_token	*next;
 }	t_token;
 
@@ -50,6 +51,7 @@ int		exec_builtins(t_token *tk);
 
 void	trans_env(char *argv[]);
 int		check_redirections(t_token *tk, char **operator);
+int		scan_heredoc_all(t_token *tks);
 void	init_environ(char *envp[]);
 t_node	*find_env_node(char *str);
 char	*my_getenv(char *_data);
