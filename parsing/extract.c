@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/21 21:00:45 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 21:33:01 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ char	**extract_new_argv(char *command, char **old_argv)
 	return (new_argv);
 }
 
-void	handle_op_error(t_token *tk)
+void	handle_op_error(t_token *tk, char **new_argv, char **operator)
 {
 	printf_err(NULL, NULL, "syntax error");
 	g_shell_info.exit_status = 258;
+	free_chars(new_argv);
+	free_chars(operator);
 	init_token_null(tk);
 }
 
@@ -61,11 +63,11 @@ void	extract_op(t_token *tk, char **old_argv, char **new_argv)
 		{
 			operator[op_idx++] = ft_strdup(old_argv[i]);
 			if (!old_argv[++i])
-				return (handle_op_error(tk));
+				return (handle_op_error(tk, new_argv, operator));
 			operator[op_idx] = my_strdup(old_argv[i]);
 			if (!old_argv[i] || !operator[op_idx] \
 				|| is_redir(operator[op_idx][0]))
-				return (handle_op_error(tk));
+				return (handle_op_error(tk, new_argv, operator));
 			else
 				op_idx++;
 		}
