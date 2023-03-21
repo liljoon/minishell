@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:57:14 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 17:14:05 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 20:25:03 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*my_strdup(char *s)
 	i = 0;
 	while (dup.src[i])
 	{
-		if (dup.src[i] == '\'' || dup.src[i] == '\"')
+		if (is_quote(dup.src[i]))
 			i += step_and_dup(&dup, dup.src, i, dup.src[i]);
 		else
 			dup.res[dup.idx++] = dup.src[i];

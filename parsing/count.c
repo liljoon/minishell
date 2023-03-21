@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:51:52 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 16:13:10 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 20:21:48 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	count_arg_in_str(char *str)
 	args = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (is_quote(str[i]))
 			i += step_to_last_quote(str, i, str[i]);
-		else if (str[i] == '<' || str[i] == '>')
+		else if (is_redir(str[i]))
 		{
 			if (i > 0)
 				args++;
@@ -33,7 +33,8 @@ int	count_arg_in_str(char *str)
 		}
 		i++;
 	}
-	args++;
+	if (i > 0 && !(is_quote(str[i - 1])))
+		args++;
 	return (args);
 }
 
@@ -48,9 +49,9 @@ int	count_total_args(char *str)
 	start = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		if (is_quote(str[i]))
 			i += step_to_last_quote(str, i, str[i]);
-		else if (str[i] == ' ')
+		else if (is_space(str[i]))
 		{
 			if (i > 0)
 				args += count_and_free_sub(str, start, i - start);
@@ -72,7 +73,7 @@ int	count_op(char **argv)
 	op = 0;
 	while (argv[i])
 	{
-		if (argv[i][0] == '<' || argv[i][0] == '>')
+		if (is_redir(argv[i][0]))
 			op++;
 		i++;
 	}

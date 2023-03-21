@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 21:20:14 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 20:24:06 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ t_token	*tokenize(char *command);
 int		check_exceptions(char *command);
 void	init_token(t_token *tk, char **_argv, char **_operator);
 void	init_token_null(t_token *tk);
+int		is_quote(char c);
+int		is_redir(char c);
+int		is_space(char c);
 
 int		step_to_last_quote(char *str, int idx, char quote);
 int		step_to_last_redir(char *str, int idx, char redir);
