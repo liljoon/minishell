@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 16:59:27 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/03 17:20:23 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/21 12:30:44 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ void	restore_std_fd(int fd[])
 	dup2(fd[1], 1);
 	close(fd[0]);
 	close(fd[1]);
-	unlink("./.heredoc_temp");
 }

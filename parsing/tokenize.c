@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 21:32:59 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/21 10:52:26 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init_token(t_token *tk, char **_argv, char **_operator)
 	tk->argv = _argv;
 	tk->operator = _operator;
 	tk->cmd = tk->argv[0];
+	tk->heredoc_fd = -1;
 	tk->next = NULL;
 }
 
