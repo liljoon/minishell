@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/21 21:33:01 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/23 18:48:23 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ void	handle_op_error(t_token *tk, char **new_argv, char **operator)
 {
 	printf_err(NULL, NULL, "syntax error");
 	g_shell_info.exit_status = 258;
-	free_chars(new_argv);
-	free_chars(operator);
+	if (new_argv)
+		free_chars(new_argv);
+	if (operator)
+		free_chars(operator);
 	init_token_null(tk);
 }
 
@@ -54,7 +56,7 @@ void	extract_op(t_token *tk, char **old_argv, char **new_argv)
 	int		op_idx;
 	char	**operator;
 
-	operator = malloc(sizeof(char *) * (count_op(old_argv) * 2 + 1));
+	operator = ft_calloc((count_op(old_argv) * 2 + 1), sizeof(char *));
 	i = 0;
 	op_idx = 0;
 	while (old_argv[i])
