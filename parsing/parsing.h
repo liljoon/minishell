@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/21 20:24:06 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/23 15:51:56 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_env_tool
 {
 	int		start;
 	char	*res;
+	int		dq_flag;
 }	t_env_tool;
 
 typedef struct s_dup_tool

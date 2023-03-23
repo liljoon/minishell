@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 14:57:30 by yham              #+#    #+#             */
-/*   Updated: 2023/03/17 14:59:01 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/23 15:52:04 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_env_tool(t_env_tool *env)
 {
 	env->start = 0;
 	env->res = ft_strdup("");
+	env->dq_flag = 0;
 }
 
 char	*my_strjoin(char *s1, char *s2)
@@ -87,8 +88,10 @@ char	*include_env(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\'' && !env.dq_flag)
 			i += step_to_last_quote(s, i, s[i]);
+		else if (s[i] == '\"')
+			env.dq_flag = 1 - env.dq_flag;
 		else if (s[i] == '$')
 		{
 			if (i > 0)
