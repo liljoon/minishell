@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 11:33:32 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:35:14 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	set_signal(void);
 void	sigint_nothing(int signo);
 void	fork_and_exec(t_token *tk);
 void	exec_control(t_token *tks);
-t_token	*tokenize(char *command);
 int		exec_builtins(t_token *tk);
 
 void	trans_env(char *argv[]);
@@ -60,7 +59,6 @@ void	set_pipe_and_exec(t_token *tks, int n);
 void	check_path_and_exec(char *argv[]);
 void	find_and_del_env(char *_data);
 void	modify_env(char *name, char *data);
-t_token	*tokenize(char *command);
 
 void	copy_std_fd(int fd[]);
 void	restore_std_fd(int fd[]);

@@ -6,18 +6,11 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:33:15 by yham              #+#    #+#             */
-/*   Updated: 2023/03/21 20:24:31 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 17:48:33 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	handle_syntax_error(void)
-{
-	printf_err(NULL, NULL, "syntax error");
-	g_shell_info.exit_status = 258;
-	return (1);
-}
 
 int	check_quote(char *command)
 {
@@ -30,7 +23,7 @@ int	check_quote(char *command)
 		{
 			i += step_to_last_quote(command, i, command[i]);
 			if (!command[i])
-				return (handle_syntax_error());
+				return (1);
 		}
 		i++;
 	}
@@ -52,7 +45,7 @@ int	check_redir(char *command)
 			start = i;
 			i += step_to_last_redir(command, i, command[i]);
 			if (i - start + 1 > 2)
-				return (handle_syntax_error());
+				return (1);
 		}
 		i++;
 	}

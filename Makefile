@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+         #
+#    By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/13 13:47:44 by isunwoo           #+#    #+#              #
-#    Updated: 2023/03/17 18:43:49 by isunwoo          ###   ########.fr        #
+#    Updated: 2023/03/24 18:09:15 by yham             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ REDIRECTIONS_SRC=	redirections/*.c
 
 SRCS	=	main.c	$(BUILTINS_SRC) $(PARSING_SRC)	$(REDIRECTIONS_SRC)	sig_handle.c	exec_command.c \
 			environ_func.c	environ_func2.c	linked_list/linked_list.c	pipe.c \
-			control_std_fd.c  free.c	parsing_pipe.c	error.c
+			control_std_fd.c  free.c	error.c
 
 TEST_SRCS = test.c	$(BUILTINS_SRC) $(PARSING_SRC)	$(REDIRECTIONS_SRC)	sig_handle.c	exec_command.c	\
 			environ_func.c	environ_func2.c	linked_list/linked_list.c	pipe.c \
-			control_std_fd.c  free.c	parsing_pipe.c	error.c
+			control_std_fd.c  free.c	error.c
 
 
 INCS	=	minishell.h	linked_list/linked_list.h builtins/builtins.h
