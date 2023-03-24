@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 15:46:27 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 18:07:37 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	fork_and_exec(t_token *tk)
 	else
 	{
 		waitpid(pid, &g_shell_info.exit_status, 0);
-		g_shell_info.exit_status /= 256;
+		g_shell_info.exit_status = WEXITSTATUS(g_shell_info.exit_status);
 	}
 	return ;
 }
