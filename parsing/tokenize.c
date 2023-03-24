@@ -6,19 +6,20 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 17:54:39 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 19:09:59 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	init_token(t_token *tk, char **_argv, char **_operator)
+int	init_token(t_token *tk, char **_argv, char **_operator)
 {
 	tk->argv = _argv;
 	tk->operator = _operator;
 	tk->cmd = tk->argv[0];
 	tk->heredoc_fd = -1;
 	tk->next = NULL;
+	return (0);
 }
 
 void	init_token_null(t_token *tk)

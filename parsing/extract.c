@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 17:55:16 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 19:09:23 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,5 @@ int	extract_op(t_token *tk, char **old_argv, char **new_argv)
 		i++;
 	}
 	operator[op_idx] = NULL;
-	init_token(tk, new_argv, operator);
-	return (0);
+	return (init_token(tk, new_argv, operator));
 }
