@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 17:07:09 by yham              #+#    #+#             */
-/*   Updated: 2023/03/23 18:48:23 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:55:16 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	**extract_new_argv(char *command, char **old_argv)
 	int		new_idx;
 	char	**new_argv;
 
-	new_argv = malloc(sizeof(char *) * \
-				(count_total_args(command) - count_op(old_argv) + 1));
+	new_argv = ft_calloc(count_total_args(command) - count_op(old_argv) + 1, \
+							sizeof(char *));
 	i = 0;
 	new_idx = 0;
 	while (old_argv[i])
@@ -39,18 +39,16 @@ char	**extract_new_argv(char *command, char **old_argv)
 	return (new_argv);
 }
 
-void	handle_op_error(t_token *tk, char **new_argv, char **operator)
+int	handle_op_error(char **new_argv, char **operator)
 {
-	printf_err(NULL, NULL, "syntax error");
-	g_shell_info.exit_status = 258;
 	if (new_argv)
 		free_chars(new_argv);
 	if (operator)
 		free_chars(operator);
-	init_token_null(tk);
+	return (1);
 }
 
-void	extract_op(t_token *tk, char **old_argv, char **new_argv)
+int	extract_op(t_token *tk, char **old_argv, char **new_argv)
 {
 	int		i;
 	int		op_idx;
@@ -65,11 +63,11 @@ void	extract_op(t_token *tk, char **old_argv, char **new_argv)
 		{
 			operator[op_idx++] = ft_strdup(old_argv[i]);
 			if (!old_argv[++i])
-				return (handle_op_error(tk, new_argv, operator));
+				return (handle_op_error(new_argv, operator));
 			operator[op_idx] = my_strdup(old_argv[i]);
 			if (!old_argv[i] || !operator[op_idx] \
 				|| is_redir(operator[op_idx][0]))
-				return (handle_op_error(tk, new_argv, operator));
+				return (handle_op_error(new_argv, operator));
 			else
 				op_idx++;
 		}
@@ -77,4 +75,5 @@ void	extract_op(t_token *tk, char **old_argv, char **new_argv)
 	}
 	operator[op_idx] = NULL;
 	init_token(tk, new_argv, operator);
+	return (0);
 }

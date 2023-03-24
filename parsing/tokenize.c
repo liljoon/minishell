@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/21 10:52:26 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:54:39 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,29 @@ void	init_token_null(t_token *tk)
 	tk->next = NULL;
 }
 
-t_token	*tokenize(char *command)
+void	handle_syntax_error(t_token *tk)
+{
+	init_token_null(tk);
+	printf_err(NULL, NULL, "syntax error");
+	g_shell_info.exit_status = 258;
+}
+
+t_token	*tokenize(char *command, int err_flag)
 {
 	char	**old_argv;
 	char	**new_argv;
 	t_token	*tk;
 
 	tk = malloc(sizeof(t_token));
-	if (check_exceptions(command))
+	if (err_flag || check_exceptions(command))
 	{
-		init_token_null(tk);
+		handle_syntax_error(tk);
 		return (tk);
 	}
 	old_argv = divide_argv(command);
 	new_argv = extract_new_argv(command, old_argv);
-	extract_op(tk, old_argv, new_argv);
+	if (extract_op(tk, old_argv, new_argv))
+		handle_syntax_error(tk);
 	free_chars(old_argv);
 	return (tk);
 }
