@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:37:51 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 20:46:11 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 22:12:38 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	readline_heredoc(int fd[], char *eof)
 {
 	char	*command;
 
+	signal(SIGINT, sigint_handler_heredoc);
 	close(fd[0]);
 	rl_catch_signals = 1;
+	echo_off();
 	while (1)
 	{
 		command = readline("> ");
@@ -42,20 +44,18 @@ int	read_heredoc(int *herdoc_fd, char *eof)
 	int		fd[2];
 	int		error;
 
-	error = 0;
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGINT, sigint_handler_heredoc);
 		readline_heredoc(fd, eof);
-	}
 	else
 	{
 		close(fd[1]);
 		waitpid(pid, &error, 0);
+		echo_on();
 		if (error)
 		{
+			printf("\n");
 			g_shell_info.exit_status = 1;
 			close(fd[0]);
 			return (1);

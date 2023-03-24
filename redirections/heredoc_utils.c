@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.h                                     :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 20:42:48 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 22:17:15 by isunwoo          ###   ########.fr       */
+/*   Created: 2023/03/24 22:12:30 by isunwoo           #+#    #+#             */
+/*   Updated: 2023/03/24 22:17:25 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIRECTIONS_H
-# define REDIRECTIONS_H
-# include "../minishell.h"
+#include "../minishell.h"
 
-void	set_heredoc(t_token *tk);
-void	sigint_handler_heredoc(int signo);
+void	echo_on(void)
+{
+	struct termios	term;
 
-void	echo_on(void);
-void	echo_off(void);
+	tcgetattr(STDOUT_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDOUT_FILENO, TCSANOW, &term);
+}
 
-#endif
+void	echo_off(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDOUT_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDOUT_FILENO, TCSANOW, &term);
+}
