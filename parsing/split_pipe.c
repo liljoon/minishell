@@ -6,14 +6,15 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:20:15 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 21:22:25 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 21:43:18 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_token	*handle_pipe_error(void)
+t_token	*handle_pipe_error(char **splited_command)
 {
+	free_chars(splited_command);
 	printf_err(NULL, NULL, "syntax error");
 	g_shell_info.exit_status = 258;
 	return (NULL);
@@ -45,7 +46,7 @@ t_token	*split_pipe_and_tokenize(char *command)
 	splited_command = ft_split(command, (char)-1);
 	trim_splited_command(splited_command);
 	if (check_pipe(command, splited_command))
-		return (handle_pipe_error());
+		return (handle_pipe_error(splited_command));
 	head = NULL;
 	temp = splited_command;
 	while (*splited_command)
