@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 21:28:48 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 22:10:35 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <termios.h>
 # include "./libft/libft.h"
 # include "./linked_list/linked_list.h"
 
