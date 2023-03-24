@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 21:48:59 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:17:22 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@ void	child_process(int temp_fd, int fd[], t_token *tks)
 
 void	wait_all(pid_t pid, int n)
 {
-	waitpid(pid, &g_shell_info.exit_status, 0);
-	n--;
+	int	stat;
+
 	while (n--)
-		wait(0);
-	g_shell_info.exit_status /= 256;
+	{
+		if (wait(&stat) == pid)
+			g_shell_info.exit_status = WEXITSTATUS(stat);
+	}
 }
 
 void	set_pipe_and_exec(t_token *tks, int n)
