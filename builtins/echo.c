@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:20:53 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/11 20:30:53 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:48:01 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void	exec_echo(char *argv[])
 	}
 	if (!is_n_option)
 		printf("\n");
+	g_shell_info.exit_status = 0;
 	return ;
 }
