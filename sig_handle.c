@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:00:02 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 21:29:51 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 21:32:10 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,14 @@ void	set_signal(void)
 	signal(SIGQUIT, (void *)sigquit_handler);
 }
 
-void	sig_handle_exec(int signo)
+void	sig_handler_nothing(int signo)
 {
-	if (signo == SIGINT)
-		printf("\n");
-	else if (signo == SIGQUIT)
-		printf("Quit: %d\n", signo);
+	(void)signo;
 	return ;
 }
 
 void	set_signal_before_exec(void)
 {
-	signal(SIGINT, sig_handle_exec);
-	signal(SIGQUIT, sig_handle_exec);
+	signal(SIGINT, sig_handler_nothing);
+	signal(SIGQUIT, sig_handler_nothing);
 }
