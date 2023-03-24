@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:20:20 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 21:22:49 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 21:44:37 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_pipe(char *command, char **splited_command)
 	int	i;
 
 	i = 0;
-	while (splited_command[i])
+	while (splited_command[i] && splited_command[i][0])
 		i++;
 	if (i != count_pipe(command) + 1)
 		return (1);
