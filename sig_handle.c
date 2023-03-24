@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:00:02 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:47:16 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:47:13 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	sigquit_handler(int signo)
 {
 	if (signo != SIGQUIT)
 		return ;
+	rl_redisplay();
 	return ;
 }
 
