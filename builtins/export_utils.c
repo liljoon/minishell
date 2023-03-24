@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:19:31 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:49:02 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 17:07:46 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ char	**split_env(char *str)
 		idx++;
 	}
 	ret[0] = ft_substr(str, 0, idx);
-	if (str[idx] == '\0' || str[idx + 1] == '\0')
+	if (str[idx] == '\0')
 		ret[1] = NULL;
+	else if (str[idx] == '=' && str[idx + 1] == '\0')
+		ret[1] = ft_strdup("");
 	else
 		ret[1] = ft_strdup(str + idx + 1);
 	ret[2] = NULL;
