@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:00:02 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 18:09:54 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 21:25:16 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ void	set_signal(void)
 	signal(SIGQUIT, (void *)sigquit_handler);
 }
 
-void	sigint_nothing(int signo)
+void	sig_handle_nothing(int signo)
 {
-	if (signo != SIGINT)
-		return ;
+	(void)signo;
 	return ;
+}
+
+void	set_signal_before_exec(void)
+{
+	signal(SIGINT, sig_handle_nothing);
+	signal(SIGQUIT, sig_handle_nothing);
 }

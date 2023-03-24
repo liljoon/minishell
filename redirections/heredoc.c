@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:37:51 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/21 22:02:56 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 20:46:11 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	readline_heredoc(int fd[], char *eof)
 	char	*command;
 
 	close(fd[0]);
+	rl_catch_signals = 1;
 	while (1)
 	{
 		command = readline("> ");

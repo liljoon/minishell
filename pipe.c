@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:05:12 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 17:17:22 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 21:23:01 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	wait_all(pid_t pid, int n)
 	while (n--)
 	{
 		if (wait(&stat) == pid)
-			g_shell_info.exit_status = WEXITSTATUS(stat);
+		{
+			if (stat >= 256)
+				g_shell_info.exit_status = WEXITSTATUS(stat);
+		}
 	}
 }
 

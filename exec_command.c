@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:36:25 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 18:07:37 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 21:21:05 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,24 @@ void	check_path_and_exec(char *argv[])
 void	fork_and_exec(t_token *tk)
 {
 	pid_t	pid;
+	int		stat;
 
 	pid = fork();
 	if (pid == 0)
 		check_path_and_exec(tk->argv);
 	else
 	{
-		waitpid(pid, &g_shell_info.exit_status, 0);
-		g_shell_info.exit_status = WEXITSTATUS(g_shell_info.exit_status);
+		waitpid(pid, &stat, 0);
+		if (stat >= 256)
+			g_shell_info.exit_status = WEXITSTATUS(stat);
+		if (WIFSIGNALED(stat))
+		{
+			if (WTERMSIG(stat) == 2)
+				printf("\n");
+			else if (WTERMSIG(stat) == 3)
+				printf("Quit: 3\n");
+			g_shell_info.exit_status = 128 + WTERMSIG(stat);
+		}
 	}
 	return ;
 }

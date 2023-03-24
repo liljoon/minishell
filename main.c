@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 18:09:50 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 21:25:05 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char *argv[], char *envp[])
 		command = readline("minishell$ ");
 		if (command_handle(command))
 			continue ;
-		signal(SIGINT, sigint_nothing);
+		set_signal_before_exec();
 		copy_std_fd(std_fd);
 		tks = split_pipe_and_tokenize(command);
 		exec_control(tks);

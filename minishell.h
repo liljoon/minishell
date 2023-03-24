@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:29 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 18:13:59 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 21:25:01 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_token
 t_shell_info	g_shell_info;
 
 void	set_signal(void);
-void	sigint_nothing(int signo);
+void	set_signal_before_exec(void);
 void	fork_and_exec(t_token *tk);
 void	exec_control(t_token *tks);
 int		exec_builtins(t_token *tk);
