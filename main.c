@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:01:17 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/17 18:51:10 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:58:14 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exit_minishell(void)
 	printf("\033[1A");
 	printf("\033[11C");
 	printf("exit\n");
-	exit(0);
+	exit(g_shell_info.exit_status);
 }
 
 int	command_handle(char *command)
