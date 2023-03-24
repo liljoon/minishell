@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:21:07 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/15 14:37:57 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:48:41 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	err_handle(char *argv[], int *flag)
 	*flag = 1;
 }
 
-int	exec_cd(char *argv[])
+void	exec_cd(char *argv[])
 {
 	char	*temp_dir;
 	char	*to_dir;
@@ -42,6 +42,7 @@ int	exec_cd(char *argv[])
 	modify_env("OLDPWD", temp_dir);
 	free(temp_dir);
 	if (err_flag)
-		return (1);
-	return (0);
+		g_shell_info.exit_status = 1;
+	else
+		g_shell_info.exit_status = 0;
 }
