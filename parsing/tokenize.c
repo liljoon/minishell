@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:51:25 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 19:09:59 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 21:05:26 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ void	handle_syntax_error(t_token *tk)
 	g_shell_info.exit_status = 258;
 }
 
-t_token	*tokenize(char *command, int err_flag)
+t_token	*tokenize(char *command)
 {
 	char	**old_argv;
 	char	**new_argv;
 	t_token	*tk;
 
 	tk = malloc(sizeof(t_token));
-	if (err_flag || check_exceptions(command))
+	if (check_exceptions(command))
 	{
 		handle_syntax_error(tk);
 		return (tk);

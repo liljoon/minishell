@@ -6,11 +6,33 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:20:20 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 17:56:49 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 21:22:49 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+void	substitute_pipe(char *command)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (command[i])
+	{
+		if (command[i] == '\'' || command[i] == '\"')
+		{
+			if (quote == 0)
+				quote = command[i];
+			else if (quote == command[i])
+				quote = 0;
+		}
+		else if (command[i] == '|' && !quote)
+			command[i] = -1;
+		i++;
+	}
+}
 
 void	trim_splited_command(char **splited_command)
 {
@@ -47,35 +69,9 @@ int	check_pipe(char *command, char **splited_command)
 
 	i = 0;
 	while (splited_command[i])
-	{
-		if (splited_command[i][0] == ' ')
-			return (1);
 		i++;
-	}
 	if (i != count_pipe(command) + 1)
 		return (1);
 	else
 		return (0);
-}
-
-void	substitute_pipe(char *command)
-{
-	int		i;
-	char	quote;
-
-	i = 0;
-	quote = 0;
-	while (command[i])
-	{
-		if (command[i] == '\'' || command[i] == '\"')
-		{
-			if (quote == 0)
-				quote = command[i];
-			else if (quote == command[i])
-				quote = 0;
-		}
-		else if (command[i] == '|' && !quote)
-			command[i] = -1;
-		i++;
-	}
 }

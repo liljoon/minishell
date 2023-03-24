@@ -6,7 +6,7 @@
 /*   By: yham <yham@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:52:42 by yham              #+#    #+#             */
-/*   Updated: 2023/03/24 19:09:37 by yham             ###   ########.fr       */
+/*   Updated: 2023/03/24 21:15:46 by yham             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	substitute_pipe(char *command);
 void	trim_splited_command(char **splited_command);
 int		check_pipe(char *command, char **splited_command);
 
-t_token	*tokenize(char *command, int err_flag);
+t_token	*tokenize(char *command);
 
 int		check_exceptions(char *command);
 int		init_token(t_token *tk, char **_argv, char **_operator);
