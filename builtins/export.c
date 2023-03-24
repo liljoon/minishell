@@ -6,7 +6,7 @@
 /*   By: isunwoo <isunwoo@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:22:22 by isunwoo           #+#    #+#             */
-/*   Updated: 2023/03/24 14:49:13 by isunwoo          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:57:46 by isunwoo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ void	exec_export(char *argv[])
 
 	argv++;
 	if (*argv == NULL)
-	{
 		print_envp_sorted();
-	}
 	while (*argv)
 	{
 		spl = split_env(*argv);
